@@ -36,7 +36,11 @@ public class Player implements KeyboardHandler {
 
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
-        System.out.println("spacebar pressed!");
+
+        if (keyboardEvent.getKey() == KeyboardEvent.KEY_SPACE) {
+            System.out.println("spacebar pressed!");
+        }
+
 
         if(keyboardEvent.getKey() == KeyboardEvent.KEY_ESC) {
             System.exit(0);
