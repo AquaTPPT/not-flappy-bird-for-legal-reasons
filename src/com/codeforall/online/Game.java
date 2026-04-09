@@ -30,6 +30,7 @@ public class Game {
 
 
         while(isPlaying){
+
             Thread.sleep(16);
             tubes1.moveAll();
             tubes2.moveAll();
@@ -38,6 +39,8 @@ public class Game {
             collisionDetector(tubes1);
             collisionDetector(tubes2);
             collisionDetector(tubes3);
+
+
         }
     }
 
@@ -60,8 +63,6 @@ public class Game {
                 player.setDeadPicture();
         }
 
-        System.out.println(player.getY());
-        System.out.println(playSpace.getBackgroundHeight());
         return isPlaying;
     }
 }

@@ -4,7 +4,7 @@ import com.codeforall.online.statics.Random;
 
 public class Main {
 
-    public static final String PREFIX = "";
+    public static final String PREFIX = "assets/";
 
     public static void main(String[] args) throws InterruptedException {
 
