@@ -1,5 +1,6 @@
 package com.codeforall.online.playspace;
 
+import com.codeforall.online.statics.Random;
 import com.codeforall.simplegraphics.graphics.Rectangle;
 import com.codeforall.simplegraphics.pictures.Picture;
 
@@ -8,10 +9,12 @@ public class Tubes {
     int lowerTubeSpawnModifier = 950;
     private UpperTube upperTube;
     private LowerTube lowerTube;
+    private int startingX;
 
     public void spawnTubes(int startingX, int startingY) {
         upperTube = new UpperTube(startingX, startingY); // min y: -800
-        lowerTube = new LowerTube(startingX, startingY + 1200); // Max y - 1060
+        lowerTube = new LowerTube(startingX, startingY + 1200);// Max y - 1060
+        this.startingX = startingX;
     }
 
     class UpperTube {
@@ -29,6 +32,14 @@ public class Tubes {
         public void move() {
             hitbox.translate(-3 , 0);
             image.translate(-3, 0);
+        }
+
+        public void resetPosition(int x, int y) {
+            int dx = x - hitbox.getX();
+            int dy = y - hitbox.getY();
+
+            hitbox.translate(dx, dy);
+            image.translate(dx, dy);
         }
 
     }
@@ -50,6 +61,14 @@ public class Tubes {
             image.translate(-3, 0);
         }
 
+        public void resetPosition(int x, int y) {
+            int dx = x - hitbox.getX();
+            int dy = y - hitbox.getY();
+
+            hitbox.translate(dx, dy);
+            image.translate(dx, dy);
+        }
+
     }
 
     public void moveAll() {
@@ -57,7 +76,31 @@ public class Tubes {
             upperTube.move();
             lowerTube.move();
         }
+
+        if (upperTube.hitbox.getX() + upperTube.hitbox.getWidth() < 0) {
+            int newX = 1500;
+            int newUpperY = Random.randomInt(-800, -200);
+            int newLowerY = newUpperY + 1200;
+
+            upperTube.resetPosition(newX, newUpperY);
+            lowerTube.resetPosition(newX, newLowerY);
+        }
+
+        System.out.println(upperTube.hitbox.getY());
+        System.out.println(lowerTube.hitbox.getY());
+
     }
+
+
+
+    public int getStartingX() {
+        return startingX;
+    }
+
+    public int getWidth() {
+        return upperTube.hitbox.getWidth();
+    }
+
 
     public int getUpperX() {
         return upperTube.hitbox.getX();
