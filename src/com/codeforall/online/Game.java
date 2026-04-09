@@ -10,6 +10,8 @@ import com.codeforall.simplegraphics.keyboard.KeyboardEvent;
 import com.codeforall.simplegraphics.keyboard.KeyboardHandler;
 import com.codeforall.simplegraphics.pictures.Picture;
 
+import java.awt.*;
+
 public class Game {
     private Playspace playSpace = new Playspace();
     private Tubes tubes1 = new Tubes();
@@ -41,18 +43,25 @@ public class Game {
 
     public boolean collisionDetector(Tubes tubes) {
 
-        if (player.getX() + player.getWidth() >= tubes.getUpperX() &&
-                player.getY() + player.getHeight() >= tubes.getUpperY() &&
-                tubes.getUpperX() + tubes.getUpperWidth() >= player.getX() &&
-                tubes.getUpperY() + tubes.getUpperHeight() >= player.getY() ||
+        if (player.getY() + player.getHeight() >= playSpace.getBackgroundHeight() ||
 
-                player.getX() + player.getWidth() >= tubes.getLowerX() &&
-                        player.getY() + player.getHeight() >= tubes.getLowerY() &&
-                        tubes.getLowerX() + tubes.getLowerWidth() >= player.getX() &&
-                        tubes.getLowerY() + tubes.getLowerHeight() >= player.getY() ) {
-            isPlaying = false;
-            player.removeJumpMechanic();
+            player.getX() + player.getWidth() >= tubes.getUpperX() &&
+            player.getY() + player.getHeight() >= tubes.getUpperY() &&
+            tubes.getUpperX() + tubes.getUpperWidth() >= player.getX() &&
+            tubes.getUpperY() + tubes.getUpperHeight() >= player.getY() ||
+
+            player.getX() + player.getWidth() >= tubes.getLowerX() &&
+            player.getY() + player.getHeight() >= tubes.getLowerY() &&
+            tubes.getLowerX() + tubes.getLowerWidth() >= player.getX() &&
+            tubes.getLowerY() + tubes.getLowerHeight() >= player.getY() ) {
+
+                isPlaying = false;
+                player.removeJumpMechanic();
+                player.setDeadPicture();
         }
+
+        System.out.println(player.getY());
+        System.out.println(playSpace.getBackgroundHeight());
         return isPlaying;
     }
 }

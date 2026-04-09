@@ -6,19 +6,25 @@ import com.codeforall.simplegraphics.keyboard.Keyboard;
 import com.codeforall.simplegraphics.keyboard.KeyboardEvent;
 import com.codeforall.simplegraphics.keyboard.KeyboardEventType;
 import com.codeforall.simplegraphics.keyboard.KeyboardHandler;
+import com.codeforall.simplegraphics.pictures.Picture;
 
 public class Player implements KeyboardHandler {
     private Rectangle rectangle;
     private Keyboard k;
     private KeyboardEvent jump;
+    private Picture picture;
 
     public Player() {
         rectangle = new Rectangle(100,300,50,50);
+        picture = new Picture(rectangle.getX(),rectangle.getY(), "assets/bird_open.png");
+        picture.grow(10,10);
+
     }
 
     public void init() {
-        rectangle.setColor(Color.MAGENTA);
-        rectangle.fill();
+        picture.draw();
+        //rectangle.setColor(Color.MAGENTA);
+        //rectangle.draw();
         initializeKeyboard();
     }
 
@@ -44,7 +50,9 @@ public class Player implements KeyboardHandler {
     public void keyPressed(KeyboardEvent keyboardEvent) {
 
         if (keyboardEvent.getKey() == KeyboardEvent.KEY_SPACE) {
-            rectangle.translate(0, - 60);
+
+            picture.translate(0, -60);
+            rectangle.translate(0, -60);
             velocity = -8;
         }
 
@@ -65,7 +73,9 @@ public class Player implements KeyboardHandler {
     public void move (){
         velocity += gravity;
 
+        picture.translate(0, velocity);
         rectangle.translate(0, velocity);
+
 
     }
 
@@ -78,6 +88,10 @@ public class Player implements KeyboardHandler {
     public int getHeight() { return rectangle.getHeight(); }
 
     public void removeJumpMechanic() { k.removeEventListener(jump);}
+
+    public void setDeadPicture() {
+        picture.load("assets/bird_dead1.png");
+    }
 }
 
 
