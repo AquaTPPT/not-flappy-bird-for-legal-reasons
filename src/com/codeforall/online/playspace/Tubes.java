@@ -81,7 +81,7 @@ public class Tubes {
             lowerTube.move();
         }
 
-        if (upperTube.hitbox.getX() + upperTube.hitbox.getWidth() < 0) {
+        if (upperTube.hitbox.getX() + upperTube.hitbox.getWidth() + 40 < 0) {
             int newX = 1100;
             int newUpperY = Random.randomInt(-900, 0);
             int newLowerY = newUpperY + 1200;
@@ -89,9 +89,6 @@ public class Tubes {
             upperTube.resetPosition(newX, newUpperY);
             lowerTube.resetPosition(newX, newLowerY);
         }
-
-        System.out.println(upperTube.hitbox.getY());
-        System.out.println(lowerTube.hitbox.getY());
 
     }
 

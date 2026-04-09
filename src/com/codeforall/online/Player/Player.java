@@ -42,8 +42,8 @@ public class Player implements KeyboardHandler {
     public void keyPressed(KeyboardEvent keyboardEvent) {
 
         if (keyboardEvent.getKey() == KeyboardEvent.KEY_SPACE) {
-            rectangle.translate(0, -100);
-            speed = 0.5;
+            rectangle.translate(0, - 60);
+            velocity = -8;
 
             System.out.println("spacebar pressed!");
         }
@@ -59,12 +59,13 @@ public class Player implements KeyboardHandler {
 
     }
 
-    private double speed = 0.5;
+    private double gravity = 0.8;
+    private double velocity = 0;
 
     public void move (){
+        velocity += gravity;
 
-        rectangle.translate(0, speed * 1.1);
-        speed = speed * 1.1;
+        rectangle.translate(0, velocity);
 
     }
 }
