@@ -10,9 +10,10 @@ import com.codeforall.simplegraphics.keyboard.KeyboardHandler;
 public class Player implements KeyboardHandler {
     private Rectangle rectangle;
     private Keyboard k;
+    private KeyboardEvent jump;
 
     public Player() {
-        rectangle = new Rectangle(100,300,75,75);
+        rectangle = new Rectangle(100,300,50,50);
     }
 
     public void init() {
@@ -23,7 +24,7 @@ public class Player implements KeyboardHandler {
 
     public void initializeKeyboard() {
         k = new Keyboard(this);
-        KeyboardEvent jump = new KeyboardEvent();
+        jump = new KeyboardEvent();
         jump.setKey(KeyboardEvent.KEY_SPACE);
         jump.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         k.addEventListener(jump);
@@ -31,6 +32,7 @@ public class Player implements KeyboardHandler {
         KeyboardEvent quit = new KeyboardEvent();
         quit.setKey(KeyboardEvent.KEY_ESC);
         quit.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+
         k.addEventListener(quit);
 
 
@@ -44,8 +46,6 @@ public class Player implements KeyboardHandler {
         if (keyboardEvent.getKey() == KeyboardEvent.KEY_SPACE) {
             rectangle.translate(0, - 60);
             velocity = -8;
-
-            System.out.println("spacebar pressed!");
         }
 
 
@@ -68,4 +68,16 @@ public class Player implements KeyboardHandler {
         rectangle.translate(0, velocity);
 
     }
+
+    public int getX() { return rectangle.getX(); }
+
+    public int getY() { return rectangle.getY(); }
+
+    public int getWidth() { return rectangle.getWidth(); }
+
+    public int getHeight() { return rectangle.getHeight(); }
+
+    public void removeJumpMechanic() { k.removeEventListener(jump);}
 }
+
+

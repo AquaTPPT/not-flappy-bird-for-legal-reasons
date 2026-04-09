@@ -82,7 +82,7 @@ public class Tubes {
         }
 
         if (upperTube.hitbox.getX() + upperTube.hitbox.getWidth() + 40 < 0) {
-            int newX = 1100;
+            int newX = 1060;
             int newUpperY = Random.randomInt(-900, 0);
             int newLowerY = newUpperY + 1200;
 
@@ -93,23 +93,25 @@ public class Tubes {
     }
 
 
-    public int getWidth() {
+    public int getUpperWidth() {
         return upperTube.hitbox.getWidth();
     }
-
-
+    public int getUpperHeight() { return upperTube.hitbox.getHeight(); }
     public int getUpperX() {
         return upperTube.hitbox.getX();
     }
-
     public int getUpperY() {
         return upperTube.hitbox.getY();
     }
 
+
+    public int getLowerWidth() {
+        return lowerTube.hitbox.getWidth();
+    }
+    public int getLowerHeight() { return lowerTube.hitbox.getHeight(); }
     public int getLowerX() {
         return lowerTube.hitbox.getX();
     }
-
     public int getLowerY() {
         return lowerTube.hitbox.getY();
     }
