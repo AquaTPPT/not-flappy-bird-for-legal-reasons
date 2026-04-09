@@ -27,7 +27,7 @@ public class Game {
 //        System.out.println(tubes1.getLowerY());
 
         while(true){
-            Thread.sleep(100);
+            Thread.sleep(16);
             tubes1.moveAll();
             tubes2.moveAll();
             tubes3.moveAll();

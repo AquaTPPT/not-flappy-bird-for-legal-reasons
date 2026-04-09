@@ -27,8 +27,8 @@ public class Tubes {
         }
 
         public void move() {
-            hitbox.translate(-10 , 0);
-            image.translate(-10, 0);
+            hitbox.translate(-3 , 0);
+            image.translate(-3, 0);
         }
 
     }
@@ -46,8 +46,8 @@ public class Tubes {
         }
 
         public void move() {
-            hitbox.translate(-10 , 0);
-            image.translate(-10, 0);
+            hitbox.translate(-3 , 0);
+            image.translate(-3, 0);
         }
 
     }
