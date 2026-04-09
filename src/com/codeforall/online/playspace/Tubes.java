@@ -9,12 +9,10 @@ public class Tubes {
     int lowerTubeSpawnModifier = 950;
     private UpperTube upperTube;
     private LowerTube lowerTube;
-    private int startingX;
 
     public void spawnTubes(int startingX, int startingY) {
         upperTube = new UpperTube(startingX, startingY); // min y: -800
         lowerTube = new LowerTube(startingX, startingY + 1200);// Max y - 1060
-        this.startingX = startingX;
     }
 
     class UpperTube {
@@ -91,11 +89,6 @@ public class Tubes {
 
     }
 
-
-
-    public int getStartingX() {
-        return startingX;
-    }
 
     public int getWidth() {
         return upperTube.hitbox.getWidth();

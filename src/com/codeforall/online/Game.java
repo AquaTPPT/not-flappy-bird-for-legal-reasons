@@ -24,15 +24,13 @@ public class Game {
         player.init();
 
 
-        System.out.println(tubes1.getStartingX());
-        System.out.println(tubes1.getWidth());
-
         while(true){
             Thread.sleep(16);
             tubes1.moveAll();
             tubes2.moveAll();
             tubes3.moveAll();
             tubes4.moveAll();
+            player.move();
         }
 
 

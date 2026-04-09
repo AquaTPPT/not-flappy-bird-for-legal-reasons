@@ -51,4 +51,12 @@ public class Player implements KeyboardHandler {
     public void keyReleased(KeyboardEvent keyboardEvent) {
 
     }
+
+    private double speed = 0.5;
+
+    public void move (){
+        rectangle.translate(0, speed * 1.2);
+        speed = speed * 1.2;
+
+    }
 }
