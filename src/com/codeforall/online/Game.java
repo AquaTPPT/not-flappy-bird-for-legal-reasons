@@ -11,7 +11,6 @@ public class Game {
     private Tubes tubes1 = new Tubes();
     private Tubes tubes2 = new Tubes();
     private Tubes tubes3 = new Tubes();
-    private Tubes tubes4 = new Tubes();
     private Player player = new Player();
 
     public void init() throws InterruptedException {
@@ -19,7 +18,6 @@ public class Game {
         tubes1.spawnTubes(800, Random.randomInt(-900, 0));
         tubes2.spawnTubes(1200, Random.randomInt(-900, 0));
         tubes3.spawnTubes(1600, Random.randomInt(-900, 0));
-        tubes4.spawnTubes(2000, Random.randomInt(-900, 0));
 
         player.init();
 
@@ -29,7 +27,6 @@ public class Game {
             tubes1.moveAll();
             tubes2.moveAll();
             tubes3.moveAll();
-            tubes4.moveAll();
             player.move();
         }
 

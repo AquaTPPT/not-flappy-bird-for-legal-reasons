@@ -1,5 +1,6 @@
 package com.codeforall.online.Player;
 
+import com.codeforall.simplegraphics.graphics.Color;
 import com.codeforall.simplegraphics.graphics.Rectangle;
 import com.codeforall.simplegraphics.keyboard.Keyboard;
 import com.codeforall.simplegraphics.keyboard.KeyboardEvent;
@@ -15,7 +16,8 @@ public class Player implements KeyboardHandler {
     }
 
     public void init() {
-        rectangle.draw();
+        rectangle.setColor(Color.MAGENTA);
+        rectangle.fill();
         initializeKeyboard();
     }
 
@@ -34,10 +36,15 @@ public class Player implements KeyboardHandler {
 
     }
 
+
+
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
 
         if (keyboardEvent.getKey() == KeyboardEvent.KEY_SPACE) {
+            rectangle.translate(0, -100);
+            speed = 0.5;
+
             System.out.println("spacebar pressed!");
         }
 
@@ -55,8 +62,9 @@ public class Player implements KeyboardHandler {
     private double speed = 0.5;
 
     public void move (){
-        rectangle.translate(0, speed * 1.2);
-        speed = speed * 1.2;
+
+        rectangle.translate(0, speed * 1.1);
+        speed = speed * 1.1;
 
     }
 }

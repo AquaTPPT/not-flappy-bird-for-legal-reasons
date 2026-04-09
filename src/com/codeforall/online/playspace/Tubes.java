@@ -1,6 +1,7 @@
 package com.codeforall.online.playspace;
 
 import com.codeforall.online.statics.Random;
+import com.codeforall.simplegraphics.graphics.Color;
 import com.codeforall.simplegraphics.graphics.Rectangle;
 import com.codeforall.simplegraphics.pictures.Picture;
 
@@ -20,11 +21,14 @@ public class Tubes {
         private Picture image;
 
         public UpperTube(int startingX, int startingY) {
-            hitbox = new Rectangle(startingX,startingY, 100,1000);
-            hitbox.draw();
 
-            image = new Picture(startingX, startingY, "assets/tube_upper.png");
+
+            image = new Picture(startingX - 20, startingY, "assets/tube_upper.png");
             image.draw();
+
+            hitbox = new Rectangle(startingX,startingY, 100,1000);
+            hitbox.setColor(Color.ORANGE);
+            hitbox.draw();
         }
 
         public void move() {
@@ -47,11 +51,13 @@ public class Tubes {
         private Picture image;
 
         public LowerTube(int startingX, int startingY) {
-            hitbox = new Rectangle(startingX, startingY, 100,1000);
-            hitbox.draw();
 
-            image = new Picture(startingX, startingY, "assets/tube_lower.png");
+            image = new Picture(startingX - 20, startingY, "assets/tube_lower.png");
             image.draw();
+
+            hitbox = new Rectangle(startingX, startingY, 100,1000);
+            hitbox.setColor(Color.ORANGE);
+            hitbox.draw();
         }
 
         public void move() {
@@ -76,8 +82,8 @@ public class Tubes {
         }
 
         if (upperTube.hitbox.getX() + upperTube.hitbox.getWidth() < 0) {
-            int newX = 1500;
-            int newUpperY = Random.randomInt(-800, -200);
+            int newX = 1100;
+            int newUpperY = Random.randomInt(-900, 0);
             int newLowerY = newUpperY + 1200;
 
             upperTube.resetPosition(newX, newUpperY);
