@@ -25,11 +25,22 @@ public class Player implements KeyboardHandler {
         jump.setKey(KeyboardEvent.KEY_SPACE);
         jump.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         k.addEventListener(jump);
+
+        KeyboardEvent quit = new KeyboardEvent();
+        quit.setKey(KeyboardEvent.KEY_ESC);
+        quit.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        k.addEventListener(quit);
+
+
     }
 
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
         System.out.println("spacebar pressed!");
+
+        if(keyboardEvent.getKey() == KeyboardEvent.KEY_ESC) {
+            System.exit(0);
+        }
     }
 
     @Override
