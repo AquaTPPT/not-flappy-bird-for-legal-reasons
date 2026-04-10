@@ -6,8 +6,12 @@ import com.codeforall.online.playspace.Tubes;
 import com.codeforall.online.statics.Random;
 import com.codeforall.simplegraphics.graphics.Color;
 import com.codeforall.simplegraphics.graphics.Text;
+import kuusisto.tinysound.Music;
+import kuusisto.tinysound.Sound;
+import kuusisto.tinysound.TinySound;
 
 import java.awt.*;
+import java.io.File;
 
 public class Game {
     private Playspace playSpace = new Playspace();
@@ -18,6 +22,9 @@ public class Game {
     private boolean isPlaying = true, isGrown;
     private Text text, textScore;
     private int score;
+    private Music bgm;
+    private Sound death;
+
 
     public void init() throws InterruptedException {
         playSpace.init();
@@ -32,10 +39,17 @@ public class Game {
         textScore.draw();
         textScore.grow(12, 50);
 
-
         player.init();
 
+        TinySound.init();
 
+        bgm = TinySound.loadMusic(new File(Main.PREFIX + "game_music.wav"));
+        death = TinySound.loadSound(new File(Main.PREFIX + "death.wav"));
+
+
+        if (bgm != null) {
+            bgm.play(true);
+        }
 
         while(isPlaying){
 
@@ -69,6 +83,8 @@ public class Game {
                 isPlaying = false;
                 player.removeJumpMechanic();
                 player.setDeadPicture();
+                bgm.stop();
+                death.play();
         }
 
         return isPlaying;
