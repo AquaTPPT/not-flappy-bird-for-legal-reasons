@@ -10,6 +10,7 @@ public class Tubes {
     int lowerTubeSpawnModifier = 950;
     private UpperTube upperTube;
     private LowerTube lowerTube;
+    private boolean passed;
 
     public void spawnTubes(int startingX, int startingY) {
         upperTube = new UpperTube(startingX, startingY); // min y: -800
@@ -28,7 +29,7 @@ public class Tubes {
 
             hitbox = new Rectangle(startingX,startingY, 100,1000);
             hitbox.setColor(Color.ORANGE);
-            hitbox.draw();
+            //hitbox.draw();
         }
 
         public void move() {
@@ -57,7 +58,7 @@ public class Tubes {
 
             hitbox = new Rectangle(startingX, startingY, 100,1000);
             hitbox.setColor(Color.ORANGE);
-            hitbox.draw();
+            //hitbox.draw();
         }
 
         public void move() {
@@ -71,6 +72,8 @@ public class Tubes {
 
             hitbox.translate(dx, dy);
             image.translate(dx, dy);
+
+            passed = false;
         }
 
     }
@@ -114,6 +117,14 @@ public class Tubes {
     }
     public int getLowerY() {
         return lowerTube.hitbox.getY();
+    }
+
+    public void setPassed() {
+        passed = true;
+    }
+
+    public boolean isPassed() {
+        return passed;
     }
 
 }

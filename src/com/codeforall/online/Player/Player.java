@@ -56,8 +56,6 @@ public class Player implements KeyboardHandler {
     }
 
 
-
-
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
 
@@ -119,7 +117,7 @@ public class Player implements KeyboardHandler {
         birdClosed.translate(0, velocity);
         rectangle.translate(0, velocity);
 
-        System.out.println(frames);
+        //System.out.println(frames);
 
 
     }
