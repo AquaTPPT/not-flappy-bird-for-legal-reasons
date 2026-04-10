@@ -24,10 +24,11 @@ public class Player implements KeyboardHandler {
         this.playspace = playspace;
         rectangle.setColor(Color.MAGENTA);
         rectangle.fill();
-        initializeKeyboard();
+    //    initializeKeyboard();
     }
 
-    public void initializeKeyboard() {
+ /*
+  public void initializeKeyboard() {
         k = new Keyboard(this);
         jump = new KeyboardEvent();
         jump.setKey(KeyboardEvent.KEY_SPACE);
@@ -39,6 +40,8 @@ public class Player implements KeyboardHandler {
         pause.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         k.addEventListener(pause);
     }
+
+  */
 
     public void jump() {
         rectangle.translate(0, -60);
