@@ -92,22 +92,25 @@ public class Player implements KeyboardHandler {
         }
 
         if (velocity > 8) {
+            birdDive.draw();
             birdOpen.delete();
             birdClosed.delete();
-            birdDive.draw();
+
         }
 
         if (velocity < 0) {
-            birdDive.delete();
             birdOpen.draw();
+            birdDive.delete();
             frames++;
 
             if (frames % 10 == 0) {
-                birdOpen.delete();
                 birdClosed.draw();;
+                birdOpen.delete();
+
             } else {
-                birdClosed.delete();
                 birdOpen.draw();
+                birdClosed.delete();
+
             }
 
         }
@@ -133,9 +136,9 @@ public class Player implements KeyboardHandler {
     public void removeJumpMechanic() { k.removeEventListener(jump);}
 
     public void setDeadPicture() {
-        birdOpen.load("assets/bird_dead1.png");
-        birdDive.load("assets/bird_dead1.png");
-        birdClosed.delete();
+        birdOpen.load(Main.PREFIX + "bird_dead1.png");
+        birdDive.load(Main.PREFIX + "bird_dead1.png");
+        birdClosed.load(Main.PREFIX + "bird_dead1.png");
     }
 
 }
