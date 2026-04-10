@@ -15,7 +15,7 @@ public class Game {
     private Tubes tubes1 = new Tubes();
     private Tubes tubes2 = new Tubes();
     private Tubes tubes3 = new Tubes();
-    private Player player = new Player();
+    private Player player = new Player(this);
     private boolean isPlaying = true;
 
     public void init() throws InterruptedException {
@@ -24,8 +24,7 @@ public class Game {
         tubes2.spawnTubes(1200, Random.randomInt(-900, 0));
         tubes3.spawnTubes(1600, Random.randomInt(-900, 0));
 
-        player.init();
-
+        player.init(playSpace);
 
         while(isPlaying){
             Thread.sleep(16);
@@ -54,5 +53,9 @@ public class Game {
             player.removeJumpMechanic();
         }
         return isPlaying;
+    }
+
+    public boolean isPlaying(boolean val) {
+        return isPlaying = val;
     }
 }

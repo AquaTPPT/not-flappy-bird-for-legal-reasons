@@ -1,5 +1,8 @@
 package com.codeforall.online.Player;
 
+import com.codeforall.online.Game;
+import com.codeforall.online.playspace.PauseMenu;
+import com.codeforall.online.playspace.Playspace;
 import com.codeforall.simplegraphics.graphics.Color;
 import com.codeforall.simplegraphics.graphics.Rectangle;
 import com.codeforall.simplegraphics.keyboard.Keyboard;
@@ -9,14 +12,16 @@ import com.codeforall.simplegraphics.keyboard.KeyboardHandler;
 
 public class Player implements KeyboardHandler {
     private Rectangle rectangle;
-    private Keyboard k;
-    private KeyboardEvent jump;
+    private Playspace playspace;
+    private Game game;
 
-    public Player() {
+    public Player(Game game) {
+        this.game = game;
         rectangle = new Rectangle(100,300,50,50);
     }
 
-    public void init() {
+    public void init(Playspace playspace) {
+        this.playspace = playspace;
         rectangle.setColor(Color.MAGENTA);
         rectangle.fill();
         initializeKeyboard();
@@ -29,28 +34,30 @@ public class Player implements KeyboardHandler {
         jump.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         k.addEventListener(jump);
 
-        KeyboardEvent quit = new KeyboardEvent();
-        quit.setKey(KeyboardEvent.KEY_ESC);
-        quit.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-
-        k.addEventListener(quit);
-
-
+        KeyboardEvent pause = new KeyboardEvent();
+        pause.setKey(KeyboardEvent.KEY_ESC);
+        pause.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        k.addEventListener(pause);
     }
 
-
+    public void jump() {
+        rectangle.translate(0, -60);
+        velocity = -8;
+    }
 
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
 
-        if (keyboardEvent.getKey() == KeyboardEvent.KEY_SPACE) {
+      /*  if (keyboardEvent.getKey() == KeyboardEvent.KEY_SPACE) {
             rectangle.translate(0, - 60);
             velocity = -8;
         }
+       */
 
 
         if(keyboardEvent.getKey() == KeyboardEvent.KEY_ESC) {
-            System.exit(0);
+            game.isPlaying(false);
+            playspace.startPauseMenu();
         }
     }
 
