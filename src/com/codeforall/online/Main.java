@@ -1,5 +1,7 @@
 package com.codeforall.online;
 
+import com.codeforall.online.Player.KeyboardInteraction;
+import com.codeforall.online.Player.MouseInteraction;
 import com.codeforall.online.statics.Random;
 
 public class Main {
