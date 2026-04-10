@@ -1,22 +1,34 @@
 package com.codeforall.online;
 
-import com.codeforall.online.Player.Player;
-import com.codeforall.online.playspace.Playspace;
-import com.codeforall.online.playspace.Tubes;
+import com.codeforall.online.Player.*;
+import com.codeforall.online.playspace.*;
 import com.codeforall.online.statics.Random;
-import com.codeforall.simplegraphics.graphics.Rectangle;
-import com.codeforall.simplegraphics.keyboard.Keyboard;
-import com.codeforall.simplegraphics.keyboard.KeyboardEvent;
-import com.codeforall.simplegraphics.keyboard.KeyboardHandler;
-import com.codeforall.simplegraphics.pictures.Picture;
 
-public class Game {
-    private Playspace playSpace = new Playspace();
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+
+public class Game implements ActionListener {
+    private Playspace playSpace;
+    private Menus menus;
+    private MouseInteraction mouseInteraction;
+    private KeyboardInteraction keyboardInteraction;
+    private Timer timer = new Timer(16, this);
+
     private Tubes tubes1 = new Tubes();
     private Tubes tubes2 = new Tubes();
     private Tubes tubes3 = new Tubes();
+
     private Player player = new Player(this);
     private boolean isPlaying = true;
+
+    public Game() {
+        mouseInteraction = new MouseInteraction(this);
+        playSpace = new Playspace(this);
+        menus = playSpace.getMenus();
+        keyboardInteraction = new KeyboardInteraction(player,this);
+    }
 
     public void init() throws InterruptedException {
         playSpace.init();
@@ -25,17 +37,9 @@ public class Game {
         tubes3.spawnTubes(1600, Random.randomInt(-900, 0));
 
         player.init(playSpace);
-
-        while(isPlaying){
-            Thread.sleep(16);
-            tubes1.moveAll();
-            tubes2.moveAll();
-            tubes3.moveAll();
-            player.move();
-            collisionDetector(tubes1);
-            collisionDetector(tubes2);
-            collisionDetector(tubes3);
-        }
+        keyboardInteraction.initializeKeyboard();
+        mouseInteraction.initializeMouse();
+        timer.start();
     }
 
     public boolean collisionDetector(Tubes tubes) {
@@ -49,13 +53,30 @@ public class Game {
                         player.getY() + player.getHeight() >= tubes.getLowerY() &&
                         tubes.getLowerX() + tubes.getLowerWidth() >= player.getX() &&
                         tubes.getLowerY() + tubes.getLowerHeight() >= player.getY() ) {
-            isPlaying = false;
-            player.removeJumpMechanic();
+            keyboardInteraction.removeJumpMechanic();
+            timer.stop();
         }
         return isPlaying;
     }
 
-    public boolean isPlaying(boolean val) {
-        return isPlaying = val;
+    public MouseInteraction getMouseInteraction() {
+        return mouseInteraction;
+    }
+
+    public void resumeGame() { timer.start(); }
+
+    public void stopGame() { timer.stop(); }
+
+    public Menus getMenus() { return menus; }
+
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+            tubes1.moveAll();
+            tubes2.moveAll();
+            tubes3.moveAll();
+            player.move();
+            collisionDetector(tubes1);
+            collisionDetector(tubes2);
+            collisionDetector(tubes3);
     }
 }

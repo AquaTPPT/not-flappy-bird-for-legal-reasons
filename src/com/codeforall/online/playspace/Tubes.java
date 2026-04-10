@@ -6,8 +6,6 @@ import com.codeforall.simplegraphics.graphics.Rectangle;
 import com.codeforall.simplegraphics.pictures.Picture;
 
 public class Tubes {
-    int baseSpawnModifier = 800;
-    int lowerTubeSpawnModifier = 950;
     private UpperTube upperTube;
     private LowerTube lowerTube;
 

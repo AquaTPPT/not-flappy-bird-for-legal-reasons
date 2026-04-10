@@ -1,21 +1,25 @@
 package com.codeforall.online.Player;
 
+import com.codeforall.online.Game;
+import com.codeforall.online.playspace.Menus;
 import com.codeforall.simplegraphics.keyboard.Keyboard;
 import com.codeforall.simplegraphics.keyboard.KeyboardEvent;
 import com.codeforall.simplegraphics.keyboard.KeyboardEventType;
 import com.codeforall.simplegraphics.keyboard.KeyboardHandler;
 import com.codeforall.simplegraphics.mouse.Mouse;
-import com.codeforall.simplegraphics.mouse.MouseEvent;
-import com.codeforall.simplegraphics.mouse.MouseEventType;
 import com.codeforall.simplegraphics.mouse.MouseHandler;
 
-public class Interaction implements KeyboardHandler, MouseHandler {
+public class KeyboardInteraction implements KeyboardHandler {
     private Keyboard k;
-    private Mouse mouse;
     private KeyboardEvent jump;
     private KeyboardEvent pause;
     private Player player;
-    private
+    private Game game;
+
+    public KeyboardInteraction(Player player, Game game) {
+        this.player = player;
+        this.game = game;
+    }
 
     public void initializeKeyboard() {
         k = new Keyboard(this);
@@ -32,7 +36,14 @@ public class Interaction implements KeyboardHandler, MouseHandler {
 
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
-
+        if (keyboardEvent.getKey() == KeyboardEvent.KEY_SPACE) {
+            System.out.println("space pressed!");
+            player.jump();
+        }
+        if(keyboardEvent.getKey() == KeyboardEvent.KEY_ESC) {
+            game.stopGame();
+            player.startPauseMenu();
+        }
     }
 
     @Override
@@ -40,27 +51,6 @@ public class Interaction implements KeyboardHandler, MouseHandler {
 
     }
 
-    public void initializeMouse() {
-        mouse = new Mouse(this);
-    }
-
-    public void addMouseListener() {
-        mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
-    }
-
-    public void removeMouseListener() {
-        mouse.removeEventListener(MouseEventType.MOUSE_CLICKED);
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent mouseEvent) {
-
-    }
 
     public KeyboardEvent getJump() {
         return jump;
@@ -69,4 +59,8 @@ public class Interaction implements KeyboardHandler, MouseHandler {
     public KeyboardEvent getPause() {
         return pause;
     }
+
+    public void removeJumpMechanic() { k.removeEventListener(jump); }
+
+    public void addJumpMechanic() { k.addEventListener(jump); }
 }
