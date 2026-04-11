@@ -5,27 +5,13 @@ import com.codeforall.online.playspace.*;
 import com.codeforall.online.statics.Random;
 import com.codeforall.simplegraphics.graphics.Color;
 import com.codeforall.simplegraphics.graphics.Text;
-import kuusisto.tinysound.Music;
-import kuusisto.tinysound.Sound;
-import kuusisto.tinysound.TinySound;
+import kuusisto.tinysound.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.*;
 import java.io.File;
-
-
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import com.codeforall.simplegraphics.graphics.Color;
-import com.codeforall.simplegraphics.graphics.Text;
-import kuusisto.tinysound.Music;
-import kuusisto.tinysound.Sound;
-import kuusisto.tinysound.TinySound;
-
-import java.awt.*;
-import java.io.File;
 
 
 public class Game implements ActionListener {
@@ -107,19 +93,19 @@ public class Game implements ActionListener {
     public void sumScore() {
 
         if (player.getX() > tubes1.getUpperX() + tubes1.getUpperWidth() && !tubes1.isPassed()) {
-            score ++;
+            score++;
             tubes1.setPassed();
             textScore.setText(Integer.toString(score));
         }
 
         if (player.getX() > tubes2.getUpperX() + tubes2.getUpperWidth() && !tubes2.isPassed()) {
-            score ++;
+            score++;
             tubes2.setPassed();
             textScore.setText(Integer.toString(score));
         }
 
         if (player.getX() > tubes3.getUpperX() + tubes3.getUpperWidth() && !tubes3.isPassed()) {
-            score ++;
+            score++;
             tubes3.setPassed();
             textScore.setText(Integer.toString(score));
         }
@@ -136,7 +122,9 @@ public class Game implements ActionListener {
     }
 
 
-    public void resumeGame() { timer.start(); }
+    public void resumeGame() {
+        keyboardInteraction.addESCButton();
+        timer.start(); }
 
     public void stopGame() { timer.stop(); }
 
@@ -151,5 +139,6 @@ public class Game implements ActionListener {
             collisionDetector(tubes1);
             collisionDetector(tubes2);
             collisionDetector(tubes3);
+            sumScore();
     }
 }

@@ -34,6 +34,7 @@ public class MouseInteraction implements MouseHandler {    private Mouse mouse;
                 mouseEvent.getX() <= game.getMenus().getButtonWidth() + game.getMenus().getButtonX()) {
             game.getMenus().removePauseMenu();
             removeMouseListener();
+
             game.resumeGame();
         }
     }

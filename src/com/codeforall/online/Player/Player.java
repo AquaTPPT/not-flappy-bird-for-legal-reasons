@@ -1,5 +1,6 @@
 package com.codeforall.online.Player;
 
+import com.codeforall.online.Main;
 import com.codeforall.online.Game;
 import com.codeforall.online.playspace.Menus;
 import com.codeforall.online.playspace.Playspace;
@@ -36,9 +37,6 @@ public class Player  {
 
     public void init(Playspace playspace) {
         this.playspace = playspace;
-        rectangle.setColor(Color.MAGENTA);
-        rectangle.fill();
-        birdOpen.draw();
         //birdDive.draw();
         //birdClosed.draw();
         //rectangle.setColor(Color.MAGENTA);
