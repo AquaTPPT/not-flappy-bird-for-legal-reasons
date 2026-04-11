@@ -37,12 +37,13 @@ public class KeyboardInteraction implements KeyboardHandler {
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
         if (keyboardEvent.getKey() == KeyboardEvent.KEY_SPACE) {
-            System.out.println("space pressed!");
             player.jump();
         }
         if(keyboardEvent.getKey() == KeyboardEvent.KEY_ESC) {
             game.stopGame();
+            k.removeEventListener(pause);
             player.startPauseMenu();
+
         }
     }
 
@@ -59,6 +60,10 @@ public class KeyboardInteraction implements KeyboardHandler {
     public KeyboardEvent getPause() {
         return pause;
     }
+
+    public void removeESCButton() { k.removeEventListener(pause); }
+
+    public void addESCButton() { k.addEventListener(pause); }
 
     public void removeJumpMechanic() { k.removeEventListener(jump); }
 
