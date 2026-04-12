@@ -42,7 +42,7 @@ public class Game implements ActionListener {
 
     // Sound Effects
     private Music bgm;
-    private Sound death;
+    private Sound death, scoreSound;
 
     public Game() {
         mouseInteraction = new MouseInteraction(this);
@@ -72,8 +72,10 @@ public class Game implements ActionListener {
         player.init(playSpace);
 
         TinySound.init();
+        TinySound.setGlobalVolume(0.25);
         bgm = TinySound.loadMusic(new File(Main.PREFIX + "game_music.wav"));
         death = TinySound.loadSound(new File(Main.PREFIX + "death.wav"));
+        scoreSound = TinySound.loadSound(new File(Main.PREFIX + "score.wav"));
 
         if (bgm != null) {
             bgm.play(true);
@@ -113,18 +115,21 @@ public class Game implements ActionListener {
 
         if (player.getX() > tubes1.getUpperX() + tubes1.getUpperWidth() && !tubes1.isPassed()) {
             score++;
+            scoreSound.play();
             tubes1.setPassed();
             textScore.setText(Integer.toString(score));
         }
 
         if (player.getX() > tubes2.getUpperX() + tubes2.getUpperWidth() && !tubes2.isPassed()) {
             score++;
+            scoreSound.play();
             tubes2.setPassed();
             textScore.setText(Integer.toString(score));
         }
 
         if (player.getX() > tubes3.getUpperX() + tubes3.getUpperWidth() && !tubes3.isPassed()) {
             score++;
+            scoreSound.play();
             tubes3.setPassed();
             textScore.setText(Integer.toString(score));
         }
