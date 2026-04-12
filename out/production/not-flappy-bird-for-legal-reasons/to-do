@@ -1,5 +1,9 @@
  PLAYER:
 
- - Create hitbox
- - make it move forward in a constant motion
- -
+ x Create hitbox
+ x make it move forward in a constant motion
+
+ MENUS:
+
+    PAUSEMENU:
+
