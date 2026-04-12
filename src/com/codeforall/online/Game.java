@@ -66,6 +66,7 @@ public class Game implements ActionListener {
         text.draw();
         text.grow(50, 50);
         textScore = new Text(185, 50, Integer.toString(score));
+        textScore.setColor(Color.ORANGE);
         textScore.draw();
         textScore.grow(12, 50);
 
