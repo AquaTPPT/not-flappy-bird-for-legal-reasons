@@ -147,11 +147,19 @@ public class Game implements ActionListener {
 
     public void resumeGame() {
         isPlaying = true;
-        timer.start(); }
+        timer.start();
+        bgm.resume();
+        keyboardInteraction.addJumpMechanic();
+    }
 
     public void stopGame() {
         isPlaying = false;
         timer.stop();
+        bgm.pause();
+        death.stop();
+        scoreSound.stop();
+        keyboardInteraction.removeJumpMechanic();
+
     }
 
     public Menus getMenus() { return menus; }
