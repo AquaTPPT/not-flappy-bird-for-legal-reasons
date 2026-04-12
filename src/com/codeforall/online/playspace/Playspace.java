@@ -15,8 +15,13 @@ public class Playspace {
     private int backgroundHeight;
     private int backgroundWidth;
     private Picture background;
-    private PauseMenu pauseMenu = new PauseMenu(this);
+    private Menus menus;
+    private MouseInteraction mouseInteraction;
 
+    public Playspace(Game game) {
+        menus = new Menus(this);
+        mouseInteraction = game.getMouseInteraction();
+    }
     public void init() {
         Canvas.setMaxX(720);
         Canvas.setMaxY(1600);
@@ -25,15 +30,13 @@ public class Playspace {
 //        text = new Text( 70, 50, "SCORE");
 //        text.draw();
 //        text.grow(50, 50);
+
         background = new Picture(0, 300, Main.PREFIX + "bg_5.png");
         background.draw();
         background.grow(370,800);
         backgroundHeight = background.getHeight();
         backgroundWidth = background.getWidth();
-
     }
-
-
 
     public int getBackgroundHeight() {
         return backgroundHeight;
@@ -43,7 +46,11 @@ public class Playspace {
         return backgroundWidth;
     }
 
-    public void startPauseMenu() { pauseMenu.init(); }
+    public void startPauseMenu() { menus.startPauseMenu(mouseInteraction); }
+
+    public Menus getMenus() {
+        return menus;
+    }
 
     public int getCenterWidth() { return backgroundWidth / 2; }
 
