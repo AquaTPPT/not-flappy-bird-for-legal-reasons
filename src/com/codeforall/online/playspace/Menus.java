@@ -50,7 +50,6 @@ public class Menus {
 
     public void removeStartMenu() {
         mainMenu.removeMenuButton();
-        mainMenu.removeMenuLogo();
     }
 
     private class PauseMenu {
@@ -104,7 +103,6 @@ public class Menus {
         private Timer startMenu = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                gameLogo = new Rectangle(110, 150, 300, 200);
                 gameLogo.setColor(Color.ORANGE);
                 gameLogo.fill();
             }
@@ -112,7 +110,6 @@ public class Menus {
         private Timer startMenuButton = new Timer(1500, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                startButton = new Rectangle(265, 800, 200, 100);
                 startButton.setColor(Color.ORANGE);
                 startButton.fill();
             }
@@ -120,10 +117,13 @@ public class Menus {
 
         public MainMenu(MouseInteraction mouseInteraction) {
             this.mouseInteraction = mouseInteraction;
+            startButton = new Rectangle(265, 800, 200, 100);
+            gameLogo = new Rectangle(110, 150, 300, 200);
         }
         public void startMenu() {
             startMenu.start();
             startMenuButton.start();
+
             mouseInteraction.initializeMouse();
             mouseInteraction.addMouseListener();
         }
@@ -134,15 +134,11 @@ public class Menus {
         public int getButtonHeight() { return startButton.getHeight(); }
 
         public void removeMenuButton() {
-           // startMenu.stop();
-           // gameLogo.delete();
+            startMenu.stop();
+            gameLogo.delete();
             startMenuButton.stop();
             startButton.delete();
             mouseInteraction.removeMouseListener();
-        }
-
-        public void removeMenuLogo() {
-            startMenu.stop();
         }
     }
 }

@@ -34,7 +34,7 @@ public class Game implements ActionListener {
 
     // Player
     private Player player = new Player(this);
-    private boolean isPlaying = true, isGrown;
+    private boolean isPlaying = true, isGrown, isPaused = false;
 
     // Scoreboard
     private Text text, textScore;
@@ -153,6 +153,8 @@ public class Game implements ActionListener {
 
     public boolean isPlaying(boolean set) { return isPlaying = set; }
     public boolean isPlaying() { return isPlaying; }
+    public boolean isPaused(boolean val) { return isPaused = val; }
+    public boolean isPaused() { return isPaused; }
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {

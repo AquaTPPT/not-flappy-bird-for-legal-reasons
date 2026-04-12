@@ -39,12 +39,12 @@ public class KeyboardInteraction implements KeyboardHandler {
         if (keyboardEvent.getKey() == KeyboardEvent.KEY_SPACE) {
             player.jump();
         }
-        if(keyboardEvent.getKey() == KeyboardEvent.KEY_ESC) {
+        if(keyboardEvent.getKey() == KeyboardEvent.KEY_ESC && !game.isPaused()) {
             game.stopGame();
+            game.isPaused(true);
             player.startPauseMenu();
-
         }
-        else if(keyboardEvent.getKey() == KeyboardEvent.KEY_ESC && !game.isPlaying()) {
+        if(keyboardEvent.getKey() == KeyboardEvent.KEY_ESC && game.isPaused()) {
         }
     }
 
