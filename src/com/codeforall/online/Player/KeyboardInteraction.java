@@ -41,9 +41,10 @@ public class KeyboardInteraction implements KeyboardHandler {
         }
         if(keyboardEvent.getKey() == KeyboardEvent.KEY_ESC) {
             game.stopGame();
-            k.removeEventListener(pause);
             player.startPauseMenu();
 
+        }
+        else if(keyboardEvent.getKey() == KeyboardEvent.KEY_ESC && !game.isPlaying()) {
         }
     }
 
@@ -51,7 +52,6 @@ public class KeyboardInteraction implements KeyboardHandler {
     public void keyReleased(KeyboardEvent keyboardEvent) {
 
     }
-
 
     public KeyboardEvent getJump() {
         return jump;

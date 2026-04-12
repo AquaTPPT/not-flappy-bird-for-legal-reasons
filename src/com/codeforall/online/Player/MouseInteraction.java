@@ -28,14 +28,20 @@ public class MouseInteraction implements MouseHandler {    private Mouse mouse;
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
-        if (mouseEvent.getY() >= game.getMenus().getButtonY() &&
+        if (game.isPlaying() == false && mouseEvent.getY() >= game.getMenus().getButtonY() &&
                 mouseEvent.getY() <= game.getMenus().getButtonHeight() + game.getMenus().getButtonY() &&
                 mouseEvent.getX() >= game.getMenus().getButtonX() &&
                 mouseEvent.getX() <= game.getMenus().getButtonWidth() + game.getMenus().getButtonX()) {
             game.getMenus().removePauseMenu();
             removeMouseListener();
-
             game.resumeGame();
+        }
+        if (mouseEvent.getY() >= game.getMenus().getButton1Y() &&
+                mouseEvent.getY() <= game.getMenus().getButton1Height() + game.getMenus().getButton1Y() &&
+                mouseEvent.getX() >= game.getMenus().getButton1X() &&
+                mouseEvent.getX() <= game.getMenus().getButton1Width() + game.getMenus().getButton1X()) {
+            game.getMenus().removeStartMenu();
+            game.startGame();
         }
     }
 

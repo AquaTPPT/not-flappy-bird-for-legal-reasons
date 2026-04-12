@@ -8,11 +8,16 @@ import com.codeforall.simplegraphics.graphics.Rectangle;
 import com.codeforall.simplegraphics.graphics.Text;
 import com.codeforall.simplegraphics.pictures.Picture;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 public class Menus {
     private PauseMenu pauseMenu;
     private MainMenu mainMenu;
     private Playspace playspace;
     private MouseInteraction mouseInteraction;
+
 
     public Menus(Playspace playspace) {
         this.playspace = playspace;
@@ -26,13 +31,27 @@ public class Menus {
         pauseMenu.init();
     }
 
-    public void startMainMenu() { mainMenu = new MainMenu(); }
+    public void startMainMenu(MouseInteraction mouseInteraction) {
+        mainMenu = new MainMenu(mouseInteraction);
+        mainMenu.startMenu();
+    }
 
+    // pause menu button
     public int getButtonX() { return pauseMenu.getButtonX(); }
     public int getButtonY() { return pauseMenu.getButtonY(); }
     public int getButtonWidth() { return pauseMenu.getButtonWidth(); }
     public int getButtonHeight() { return pauseMenu.getButtonHeight(); }
 
+    // Main menu button
+    public int getButton1X() { return mainMenu.getButtonX(); }
+    public int getButton1Y() { return mainMenu.getButtonY(); }
+    public int getButton1Width() { return mainMenu.getButtonWidth(); }
+    public int getButton1Height() { return mainMenu.getButtonHeight(); }
+
+    public void removeStartMenu() {
+        mainMenu.removeMenuButton();
+        mainMenu.removeMenuLogo();
+    }
 
     private class PauseMenu {
         private Picture picture;
@@ -79,5 +98,51 @@ public class Menus {
     }
 
     private class MainMenu {
+        private Rectangle gameLogo;
+        private Rectangle startButton;
+        private MouseInteraction mouseInteraction;
+        private Timer startMenu = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                gameLogo = new Rectangle(110, 150, 300, 200);
+                gameLogo.setColor(Color.ORANGE);
+                gameLogo.fill();
+            }
+        });
+        private Timer startMenuButton = new Timer(1500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                startButton = new Rectangle(265, 800, 200, 100);
+                startButton.setColor(Color.ORANGE);
+                startButton.fill();
+            }
+        });
+
+        public MainMenu(MouseInteraction mouseInteraction) {
+            this.mouseInteraction = mouseInteraction;
+        }
+        public void startMenu() {
+            startMenu.start();
+            startMenuButton.start();
+            mouseInteraction.initializeMouse();
+            mouseInteraction.addMouseListener();
+        }
+
+        public int getButtonX() { return startButton.getX(); }
+        public int getButtonY() { return startButton.getY(); }
+        public int getButtonWidth() { return startButton.getWidth(); }
+        public int getButtonHeight() { return startButton.getHeight(); }
+
+        public void removeMenuButton() {
+           // startMenu.stop();
+           // gameLogo.delete();
+            startMenuButton.stop();
+            startButton.delete();
+            mouseInteraction.removeMouseListener();
+        }
+
+        public void removeMenuLogo() {
+            startMenu.stop();
+        }
     }
 }

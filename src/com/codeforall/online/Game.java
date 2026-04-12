@@ -15,18 +15,32 @@ import javax.swing.*;
 
 
 public class Game implements ActionListener {
+
+    // game area
     private Playspace playSpace;
+
+    // Menus
     private Menus menus;
+
+    // Interactions
     private MouseInteraction mouseInteraction;
     private KeyboardInteraction keyboardInteraction;
+
+    // Game loop and obstacles
     private Timer timer = new Timer(16, this);
     private Tubes tubes1 = new Tubes();
     private Tubes tubes2 = new Tubes();
     private Tubes tubes3 = new Tubes();
+
+    // Player
     private Player player = new Player(this);
     private boolean isPlaying = true, isGrown;
+
+    // Scoreboard
     private Text text, textScore;
     private int score;
+
+    // Sound Effects
     private Music bgm;
     private Sound death;
 
@@ -39,6 +53,11 @@ public class Game implements ActionListener {
 
     public void init() {
         playSpace.init();
+        menus.startMainMenu(mouseInteraction);
+    }
+
+    public void startGame() {
+
         tubes1.spawnTubes(800, Random.randomInt(-900, 0));
         tubes2.spawnTubes(1200, Random.randomInt(-900, 0));
         tubes3.spawnTubes(1600, Random.randomInt(-900, 0));
@@ -121,14 +140,19 @@ public class Game implements ActionListener {
         }
     }
 
-
     public void resumeGame() {
-        keyboardInteraction.addESCButton();
+        isPlaying = true;
         timer.start(); }
 
-    public void stopGame() { timer.stop(); }
+    public void stopGame() {
+        isPlaying = false;
+        timer.stop();
+    }
 
     public Menus getMenus() { return menus; }
+
+    public boolean isPlaying(boolean set) { return isPlaying = set; }
+    public boolean isPlaying() { return isPlaying; }
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
