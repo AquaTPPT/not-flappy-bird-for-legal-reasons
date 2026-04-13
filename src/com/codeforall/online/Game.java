@@ -26,7 +26,7 @@ public class Game implements ActionListener {
     private MouseInteraction mouseInteraction;
     private KeyboardInteraction keyboardInteraction;
 
-    // Game loop and obstacles
+    // Game loop and obstacles (note: the tubes can be set elsewhere, doesn't need to be here)
     private Timer timer = new Timer(16, this);
     private Tubes tubes1 = new Tubes();
     private Tubes tubes2 = new Tubes();
@@ -36,13 +36,14 @@ public class Game implements ActionListener {
     private Player player = new Player(this);
     private boolean isPlaying = true, isGrown, isPaused = false;
 
-    // Scoreboard
+    // Scoreboard (this could also be in Menus, on GUI)
     private Text text, textScore;
     private int score;
 
     // Sound Effects
     private Music bgm;
     private Sound death, scoreSound;
+    private boolean isMuted = false;
 
     public Game() {
         mouseInteraction = new MouseInteraction(this);
@@ -61,6 +62,8 @@ public class Game implements ActionListener {
         tubes1.spawnTubes(800, Random.randomInt(-900, 0));
         tubes2.spawnTubes(1200, Random.randomInt(-900, 0));
         tubes3.spawnTubes(1600, Random.randomInt(-900, 0));
+
+        // change to a separate class later!
         text = new Text( 70, 50, "SCORE:");
         text.setColor(Color.WHITE);
         text.draw();
@@ -72,8 +75,6 @@ public class Game implements ActionListener {
 
         player.init(playSpace);
 
-        TinySound.init();
-        TinySound.setGlobalVolume(0.25);
         bgm = TinySound.loadMusic(new File(Main.PREFIX + "game_music.wav"));
         death = TinySound.loadSound(new File(Main.PREFIX + "death.wav"));
         scoreSound = TinySound.loadSound(new File(Main.PREFIX + "score.wav"));
@@ -150,7 +151,6 @@ public class Game implements ActionListener {
         isPlaying = true;
         timer.start();
         bgm.resume();
-        keyboardInteraction.addJumpMechanic();
     }
 
     public void stopGame() {
@@ -159,14 +159,21 @@ public class Game implements ActionListener {
         bgm.pause();
         death.stop();
         scoreSound.stop();
-        keyboardInteraction.removeJumpMechanic();
 
     }
 
     public Menus getMenus() { return menus; }
 
+    public boolean isMuted() {
+        return isMuted;
+    }
+    public boolean isMuted(boolean set) {
+        return isMuted = set;
+    }
+
     public boolean isPlaying(boolean set) { return isPlaying = set; }
     public boolean isPlaying() { return isPlaying; }
+
     public boolean isPaused(boolean val) { return isPaused = val; }
     public boolean isPaused() { return isPaused; }
 

@@ -26,11 +26,6 @@ public class Playspace {
         Canvas.setMaxX(720);
         Canvas.setMaxY(1600);
 
-        // only for testing screen res, delete this later.
-//        text = new Text( 70, 50, "SCORE");
-//        text.draw();
-//        text.grow(50, 50);
-
         background = new Picture(0, 300, Main.PREFIX + "bg_5.png");
         background.draw();
         background.grow(370,800);

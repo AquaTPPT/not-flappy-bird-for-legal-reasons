@@ -7,6 +7,7 @@ import com.codeforall.simplegraphics.graphics.Color;
 import com.codeforall.simplegraphics.graphics.Rectangle;
 import com.codeforall.simplegraphics.graphics.Text;
 import com.codeforall.simplegraphics.pictures.Picture;
+import kuusisto.tinysound.TinySound;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -48,8 +49,72 @@ public class Menus {
     public int getButton1Width() { return mainMenu.getButtonWidth(); }
     public int getButton1Height() { return mainMenu.getButtonHeight(); }
 
+    // Mute button
+    public int getMuteButtonX() { return mainMenu.getMuteButtonX(); }
+    public int getMuteButtonY() { return mainMenu.getMuteButtonY(); }
+    public int getMuteButtonWidth() { return mainMenu.getMuteButtonWidth(); }
+    public int getMuteButtonHeight() { return mainMenu.getMuteButtonHeight(); }
+
     public void removeStartMenu() {
-        mainMenu.removeMenuButton();
+        mainMenu.removeMenuButtons();
+    }
+
+    private class MainMenu {
+        private Rectangle gameLogo;
+        private Rectangle startButton;
+        private Rectangle muteButton;
+        private MouseInteraction mouseInteraction;
+        private Timer startMenu = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                gameLogo.setColor(Color.ORANGE);
+                gameLogo.fill();
+            }
+        });
+        private Timer startMenuButtons = new Timer(1500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                startButton.setColor(Color.ORANGE);
+                startButton.fill();
+                muteButton.setColor(Color.CYAN);
+                muteButton.fill();
+            }
+        });
+
+        public MainMenu(MouseInteraction mouseInteraction) {
+            this.mouseInteraction = mouseInteraction;
+            startButton = new Rectangle(265, 800, 200, 100);
+            gameLogo = new Rectangle(110, 150, 300, 200);
+            muteButton = new Rectangle(680, 0, 50,50);
+            TinySound.init();
+            TinySound.setGlobalVolume(0.25);
+        }
+        public void startMenu() {
+            startMenu.start();
+            startMenuButtons.start();
+
+            mouseInteraction.initializeMouse();
+            mouseInteraction.addMouseListener();
+        }
+
+        public int getButtonX() { return startButton.getX(); }
+        public int getButtonY() { return startButton.getY(); }
+        public int getButtonWidth() { return startButton.getWidth(); }
+        public int getButtonHeight() { return startButton.getHeight(); }
+
+        public int getMuteButtonX() { return muteButton.getX(); }
+        public int getMuteButtonY() { return muteButton.getY(); }
+        public int getMuteButtonWidth() { return muteButton.getWidth(); }
+        public int getMuteButtonHeight() { return muteButton.getHeight(); }
+
+        public void removeMenuButtons() {
+            startMenu.stop();
+            gameLogo.delete();
+            startMenuButtons.stop();
+            startButton.delete();
+            muteButton.delete();
+            mouseInteraction.removeMouseListener();
+        }
     }
 
     private class PauseMenu {
@@ -94,51 +159,5 @@ public class Menus {
         public int getButtonY() { return button.getY(); }
         public int getButtonWidth() { return button.getWidth(); }
         public int getButtonHeight() { return button.getHeight(); }
-    }
-
-    private class MainMenu {
-        private Rectangle gameLogo;
-        private Rectangle startButton;
-        private MouseInteraction mouseInteraction;
-        private Timer startMenu = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                gameLogo.setColor(Color.ORANGE);
-                gameLogo.fill();
-            }
-        });
-        private Timer startMenuButton = new Timer(1500, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                startButton.setColor(Color.ORANGE);
-                startButton.fill();
-            }
-        });
-
-        public MainMenu(MouseInteraction mouseInteraction) {
-            this.mouseInteraction = mouseInteraction;
-            startButton = new Rectangle(265, 800, 200, 100);
-            gameLogo = new Rectangle(110, 150, 300, 200);
-        }
-        public void startMenu() {
-            startMenu.start();
-            startMenuButton.start();
-
-            mouseInteraction.initializeMouse();
-            mouseInteraction.addMouseListener();
-        }
-
-        public int getButtonX() { return startButton.getX(); }
-        public int getButtonY() { return startButton.getY(); }
-        public int getButtonWidth() { return startButton.getWidth(); }
-        public int getButtonHeight() { return startButton.getHeight(); }
-
-        public void removeMenuButton() {
-            startMenu.stop();
-            gameLogo.delete();
-            startMenuButton.stop();
-            startButton.delete();
-            mouseInteraction.removeMouseListener();
-        }
     }
 }

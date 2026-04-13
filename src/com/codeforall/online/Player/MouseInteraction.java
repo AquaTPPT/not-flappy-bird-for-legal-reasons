@@ -6,6 +6,7 @@ import com.codeforall.simplegraphics.mouse.Mouse;
 import com.codeforall.simplegraphics.mouse.MouseEvent;
 import com.codeforall.simplegraphics.mouse.MouseEventType;
 import com.codeforall.simplegraphics.mouse.MouseHandler;
+import kuusisto.tinysound.*;
 
 public class MouseInteraction implements MouseHandler {    private Mouse mouse;
     private Game game;
@@ -43,6 +44,19 @@ public class MouseInteraction implements MouseHandler {    private Mouse mouse;
                 mouseEvent.getX() <= game.getMenus().getButton1Width() + game.getMenus().getButton1X()) {
             game.getMenus().removeStartMenu();
             game.startGame();
+        }
+        if (mouseEvent.getY() >= game.getMenus().getMuteButtonY() &&
+                mouseEvent.getY() <= game.getMenus().getMuteButtonHeight() + game.getMenus().getMuteButtonY() &&
+                mouseEvent.getX() >= game.getMenus().getMuteButtonX() &&
+                mouseEvent.getX() <= game.getMenus().getMuteButtonWidth() + game.getMenus().getMuteButtonX()) {
+            if (game.isMuted()) {
+                game.isMuted(false);
+                TinySound.setGlobalVolume(0);
+            }
+            else {
+                game.isMuted(true);
+                TinySound.setGlobalVolume(0.25);
+            }
         }
     }
 
