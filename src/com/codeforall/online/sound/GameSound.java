@@ -55,6 +55,10 @@ public class GameSound {
         badSound.play();
     }
 
+    public void stopBadSound() {
+        badSound.stop();
+    }
+
 
 
 

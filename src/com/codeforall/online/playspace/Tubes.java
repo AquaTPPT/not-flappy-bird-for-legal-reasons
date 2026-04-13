@@ -9,17 +9,18 @@ public class Tubes {
     private UpperTube upperTube;
     private LowerTube lowerTube;
     private boolean passed;
-    private int spawnTubesX;
+    private int spawnTubesX, spawnTubesY;
 
     public void spawnTubes(int startingX, int startingY) {
         upperTube = new UpperTube(startingX, startingY); // min y: -800
         lowerTube = new LowerTube(startingX, startingY + 1200);// Max y - 1060
         spawnTubesX = startingX;
+        spawnTubesY = startingY;
     }
 
     public void resetPosition() {
-        upperTube.resetPosition(spawnTubesX - getUpperX(),0);
-        lowerTube.resetPosition(spawnTubesX - getLowerX(),0);
+        upperTube.resetPosition(spawnTubesX ,spawnTubesY);
+        lowerTube.resetPosition(spawnTubesX,spawnTubesY + 1200);
     }
 
     class UpperTube {

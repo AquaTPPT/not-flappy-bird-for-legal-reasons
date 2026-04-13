@@ -72,9 +72,8 @@ public class Menus {
     }
 
     private class MainMenu {
-        private Rectangle gameLogo;
-        private Rectangle startButton;
-        private Rectangle muteButton;
+        private Rectangle gameLogo, startButton; //muteButton;
+        private Picture muteButton;
         private MouseInteraction mouseInteraction;
         private Timer startMenu = new Timer(1000, new ActionListener() {
             @Override
@@ -88,8 +87,7 @@ public class Menus {
             public void actionPerformed(ActionEvent actionEvent) {
                 startButton.setColor(Color.ORANGE);
                 startButton.fill();
-                muteButton.setColor(Color.CYAN);
-                muteButton.fill();
+                muteButton.draw();
             }
         });
 
@@ -97,7 +95,7 @@ public class Menus {
             this.mouseInteraction = mouseInteraction;
             startButton = new Rectangle(265, 800, 200, 100);
             gameLogo = new Rectangle(110, 150, 300, 200);
-            muteButton = new Rectangle(680, 0, 50,50);
+            muteButton = new Picture(670, 0, Main.PREFIX + "sound_on.png");
             TinySound.init();
             TinySound.setGlobalVolume(0.25);
         }
