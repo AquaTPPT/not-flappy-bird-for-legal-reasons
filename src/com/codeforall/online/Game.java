@@ -185,6 +185,7 @@ public class Game implements ActionListener {
             collisionDetector(tubes2);
             collisionDetector(tubes3);
             sumScore();
+            menus.setSfxPlayedFalse();
     }
 
     public KeyboardInteraction getKeyboardInteraction() {

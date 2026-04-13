@@ -207,5 +207,15 @@ public class Menus {
             playAgain.delete();
             gameOver.delete();
         }
+
+        public void setSfxPlayedFalse(){
+            sfxPlayed = false;
+        }
+
     }
+
+    public void setSfxPlayedFalse() {
+        gameOver.setSfxPlayedFalse();
+    }
+
 }
