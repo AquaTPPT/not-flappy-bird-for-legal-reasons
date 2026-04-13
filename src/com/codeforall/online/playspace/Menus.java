@@ -95,7 +95,7 @@ public class Menus {
             this.mouseInteraction = mouseInteraction;
             startButton = new Rectangle(265, 800, 200, 100);
             gameLogo = new Rectangle(110, 150, 300, 200);
-            muteButton = new Picture(670, 0, Main.PREFIX + "sound_on.png");
+            muteButton = new Picture(680, 0, Main.PREFIX + "sound_on.png");
             TinySound.init();
             TinySound.setGlobalVolume(0.25);
         }

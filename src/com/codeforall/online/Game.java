@@ -78,7 +78,6 @@ public class Game implements ActionListener {
         tubes3.resetPosition();
         startGame();
         menus.closeGameOverScreen();
-
     }
 
     public void startGame() {
