@@ -2,6 +2,7 @@ package com.codeforall.online.playspace;
 
 import com.codeforall.online.Main;
 import com.codeforall.online.Player.MouseInteraction;
+import com.codeforall.online.sound.GameSound;
 import com.codeforall.simplegraphics.graphics.Color;
 import com.codeforall.simplegraphics.graphics.Rectangle;
 import com.codeforall.simplegraphics.graphics.Text;
@@ -176,7 +177,7 @@ public class Menus {
         private Rectangle gameOver;
         private MouseInteraction mouseInteraction;
         private Playspace playspace;
-        private Sound badSound;
+        private GameSound gameSound;
         private boolean sfxPlayed = false;
 
         private Timer gameOverScreen = new Timer(1000, new ActionListener() {
@@ -188,7 +189,7 @@ public class Menus {
                 playAgain.fill();
                 if (!sfxPlayed) {
                     sfxPlayed = true;
-                    badSound.play();
+                    gameSound.playBadSound();
                 }
             }
         });
@@ -196,7 +197,7 @@ public class Menus {
             this.playspace = playspace;
             playAgain = new Rectangle(265, 800, 200, 100);
             gameOver = new Rectangle(110, 150, 300, 200);
-            badSound = TinySound.loadSound(new File(Main.PREFIX + "Spongebob_Disgusting_sfx.wav"));
+            gameSound = new GameSound();
         }
 
         public void startGameOverScreen() {
