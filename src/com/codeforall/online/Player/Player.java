@@ -22,10 +22,12 @@ public class Player  {
     private Picture birdOpen, birdClosed, birdDive;
     private double gravity = 0.8;
     private double velocity = 0;
+    private int spawnX = 100;
+    private int spawnY = 300;
 
     public Player(Game game) {
         this.game = game;
-        rectangle = new Rectangle(100,300,50,50);
+        rectangle = new Rectangle(spawnX, spawnY,50,50);
         birdOpen = new Picture(rectangle.getX(),rectangle.getY(), Main.PREFIX + "bird_open.png");
         birdOpen.grow(10,10);
         birdClosed = new Picture(rectangle.getX(),rectangle.getY(), Main.PREFIX + "bird_closed1.png");
@@ -35,15 +37,21 @@ public class Player  {
 
     }
 
-    public void init(Playspace playspace) {
-        this.playspace = playspace;
-        //birdDive.draw();
-        //birdClosed.draw();
-        //rectangle.setColor(Color.MAGENTA);
-        //rectangle.draw();
+    public void playerMovetoSpawn() {
+        rectangle.translate(0,spawnY - rectangle.getY());
+        birdDive.translate(0,spawnY - birdDive.getY());
+        birdOpen.translate(0,spawnY - birdOpen.getY());
+        birdClosed.translate(0,spawnY - birdClosed.getY());
+        velocity = 0;
+
+        birdOpen.load(Main.PREFIX + "bird_open.png");
+        birdClosed.load(Main.PREFIX + "bird_closed1.png");
+        birdDive.load(Main.PREFIX + "bird_dive.png");
     }
 
-
+    public void init(Playspace playspace) {
+        this.playspace = playspace;
+    }
 
     public void jump() {
         birdOpen.translate(0, -60);
@@ -104,6 +112,10 @@ public class Player  {
     public int getWidth() { return rectangle.getWidth(); }
 
     public int getHeight() { return rectangle.getHeight(); }
+
+    public int getSpawnY() {
+        return spawnY;
+    }
 
     public void setDeadPicture() {
         birdOpen.load(Main.PREFIX + "bird_dead1.png");

@@ -3,6 +3,7 @@ package com.codeforall.online;
 import com.codeforall.online.Player.*;
 import com.codeforall.online.playspace.*;
 import com.codeforall.online.statics.Random;
+import com.codeforall.simplegraphics.graphics.Canvas;
 import com.codeforall.simplegraphics.graphics.Color;
 import com.codeforall.simplegraphics.graphics.Text;
 import kuusisto.tinysound.*;
@@ -18,6 +19,9 @@ public class Game implements ActionListener {
 
     // game area
     private Playspace playSpace;
+    private Tubes tubes1 = new Tubes();
+    private Tubes tubes2 = new Tubes();
+    private Tubes tubes3 = new Tubes();
 
     // Menus
     private Menus menus;
@@ -28,13 +32,10 @@ public class Game implements ActionListener {
 
     // Game loop and obstacles (note: the tubes can be set elsewhere, doesn't need to be here)
     private Timer timer = new Timer(16, this);
-    private Tubes tubes1 = new Tubes();
-    private Tubes tubes2 = new Tubes();
-    private Tubes tubes3 = new Tubes();
 
     // Player
     private Player player = new Player(this);
-    private boolean isPlaying = true, isGrown, isPaused = false;
+    private boolean isPlaying = true, isGrown, isPaused = false, isDead = false, isStarted = false;
 
     // Scoreboard (this could also be in Menus, on GUI)
     private Text text, textScore;
@@ -45,11 +46,13 @@ public class Game implements ActionListener {
     private Sound death, scoreSound;
     private boolean isMuted = false;
 
+
     public Game() {
         mouseInteraction = new MouseInteraction(this);
         playSpace = new Playspace(this);
         menus = playSpace.getMenus();
         keyboardInteraction = new KeyboardInteraction(player,this);
+        init();
     }
 
     public void init() {
@@ -57,11 +60,10 @@ public class Game implements ActionListener {
         menus.startMainMenu(mouseInteraction);
     }
 
-    public void startGame() {
-
-        tubes1.spawnTubes(800, Random.randomInt(-900, 0));
-        tubes2.spawnTubes(1200, Random.randomInt(-900, 0));
-        tubes3.spawnTubes(1600, Random.randomInt(-900, 0));
+    public void initGame() {
+        tubes1.spawnTubes(800, Random.randomInt(-500, -100));
+        tubes2.spawnTubes(1200, Random.randomInt(-500, -100));
+        tubes3.spawnTubes(1600, Random.randomInt(-500, -100));
 
         // change to a separate class later!
         text = new Text( 70, 50, "SCORE:");
@@ -72,9 +74,21 @@ public class Game implements ActionListener {
         textScore.setColor(Color.ORANGE);
         textScore.draw();
         textScore.grow(12, 50);
-
         player.init(playSpace);
+        keyboardInteraction.initializeKeyboard();
+        mouseInteraction.initializeMouse();
+    }
 
+    public void restartGame() {
+        player.playerMovetoSpawn();
+        tubes1.resetPosition();
+        tubes2.resetPosition();
+        tubes3.resetPosition();
+        startGame();
+        menus.closeGameOverScreen();
+    }
+
+    public void startGame() {
         bgm = TinySound.loadMusic(new File(Main.PREFIX + "game_music.wav"));
         death = TinySound.loadSound(new File(Main.PREFIX + "death.wav"));
         scoreSound = TinySound.loadSound(new File(Main.PREFIX + "score.wav"));
@@ -83,8 +97,6 @@ public class Game implements ActionListener {
             bgm.play(true);
         }
 
-        keyboardInteraction.initializeKeyboard();
-        mouseInteraction.initializeMouse();
         timer.start();
     }
 
@@ -102,9 +114,12 @@ public class Game implements ActionListener {
                         tubes.getLowerY() + tubes.getLowerHeight() >= player.getY() ) {
             keyboardInteraction.removeJumpMechanic();
             player.setDeadPicture();
+            isPlaying = false;
+            isDead = true;
             bgm.stop();
             death.play();
             timer.stop();
+            menus.startGameOverScreen(playSpace);
         }
         return isPlaying;
     }
@@ -171,6 +186,12 @@ public class Game implements ActionListener {
         return isMuted = set;
     }
 
+    public boolean isStarted(boolean val) { return isStarted = val; }
+    public boolean isStarted() { return isStarted; }
+
+    public boolean isDead(boolean set) { return isDead = set; }
+    public boolean isDead() { return isDead; }
+
     public boolean isPlaying(boolean set) { return isPlaying = set; }
     public boolean isPlaying() { return isPlaying; }
 
@@ -187,5 +208,9 @@ public class Game implements ActionListener {
             collisionDetector(tubes2);
             collisionDetector(tubes3);
             sumScore();
+    }
+
+    public KeyboardInteraction getKeyboardInteraction() {
+        return keyboardInteraction;
     }
 }

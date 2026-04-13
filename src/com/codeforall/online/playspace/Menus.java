@@ -1,40 +1,51 @@
 package com.codeforall.online.playspace;
 
 import com.codeforall.online.Main;
-import com.codeforall.online.Player.KeyboardInteraction;
 import com.codeforall.online.Player.MouseInteraction;
 import com.codeforall.simplegraphics.graphics.Color;
 import com.codeforall.simplegraphics.graphics.Rectangle;
 import com.codeforall.simplegraphics.graphics.Text;
+import com.codeforall.simplegraphics.mouse.Mouse;
 import com.codeforall.simplegraphics.pictures.Picture;
-import kuusisto.tinysound.TinySound;
+import kuusisto.tinysound.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class Menus {
     private PauseMenu pauseMenu;
     private MainMenu mainMenu;
+    private GameOver gameOver;
     private Playspace playspace;
     private MouseInteraction mouseInteraction;
 
 
-    public Menus(Playspace playspace) {
+    public Menus(Playspace playspace, MouseInteraction mouseInteraction) {
         this.playspace = playspace;
+        pauseMenu = new PauseMenu(playspace, playspace.getMouseInteraction());
+        this.mouseInteraction = mouseInteraction;
+        mainMenu = new MainMenu(mouseInteraction);
+        gameOver = new GameOver(playspace);
     }
 
     public void removePauseMenu() { pauseMenu.removePauseMenu(); }
 
     public void startPauseMenu(MouseInteraction mouseInteraction) {
-        this.mouseInteraction = mouseInteraction;
-        pauseMenu = new PauseMenu(playspace, mouseInteraction);
         pauseMenu.init();
     }
 
     public void startMainMenu(MouseInteraction mouseInteraction) {
-        mainMenu = new MainMenu(mouseInteraction);
         mainMenu.startMenu();
+    }
+
+    public void startGameOverScreen(Playspace playspace) {
+        gameOver.startGameOverScreen();
+    }
+
+    public void closeGameOverScreen() {
+        gameOver.closeGameOverScreen();
     }
 
     // pause menu button
@@ -123,7 +134,6 @@ public class Menus {
         private Text text;
         private Text buttonText;
         private Rectangle button; // change this to picture later!!
-        private KeyboardInteraction keyboardInteraction;
         private MouseInteraction mouseInteraction;
 
         public PauseMenu(Playspace playspace, MouseInteraction mouseInteraction) {
@@ -159,5 +169,44 @@ public class Menus {
         public int getButtonY() { return button.getY(); }
         public int getButtonWidth() { return button.getWidth(); }
         public int getButtonHeight() { return button.getHeight(); }
+    }
+
+    private class GameOver {
+        private Rectangle playAgain;
+        private Rectangle gameOver;
+        private MouseInteraction mouseInteraction;
+        private Playspace playspace;
+        private Sound badSound;
+        private boolean sfxPlayed = false;
+
+        private Timer gameOverScreen = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                gameOver.setColor(Color.ORANGE);
+                gameOver.fill();
+                playAgain.setColor(Color.ORANGE);
+                playAgain.fill();
+                if (!sfxPlayed) {
+                    sfxPlayed = true;
+                    badSound.play();
+                }
+            }
+        });
+        public GameOver(Playspace playspace) {
+            this.playspace = playspace;
+            playAgain = new Rectangle(265, 800, 200, 100);
+            gameOver = new Rectangle(110, 150, 300, 200);
+            badSound = TinySound.loadSound(new File(Main.PREFIX + "Spongebob_Disgusting_sfx.wav"));
+        }
+
+        public void startGameOverScreen() {
+            gameOverScreen.start();
+        }
+
+        public void closeGameOverScreen() {
+            gameOverScreen.stop();
+            playAgain.delete();
+            gameOver.delete();
+        }
     }
 }

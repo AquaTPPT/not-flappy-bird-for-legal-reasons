@@ -14,6 +14,7 @@ public class MouseInteraction implements MouseHandler {    private Mouse mouse;
     public MouseInteraction(Game game) {
         this.game = game;
     }
+
     public void initializeMouse() {
         mouse = new Mouse(this);
         addMouseListener();
@@ -29,7 +30,7 @@ public class MouseInteraction implements MouseHandler {    private Mouse mouse;
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
-        if (game.isPlaying() == false && mouseEvent.getY() >= game.getMenus().getButtonY() &&
+        if (!game.isDead() && !game.isPlaying() && mouseEvent.getY() >= game.getMenus().getButtonY() &&
                 mouseEvent.getY() <= game.getMenus().getButtonHeight() + game.getMenus().getButtonY() &&
                 mouseEvent.getX() >= game.getMenus().getButtonX() &&
                 mouseEvent.getX() <= game.getMenus().getButtonWidth() + game.getMenus().getButtonX()) {
@@ -38,12 +39,25 @@ public class MouseInteraction implements MouseHandler {    private Mouse mouse;
             game.isPaused(false);
             game.resumeGame();
         }
-        if (mouseEvent.getY() >= game.getMenus().getButton1Y() &&
+
+        if (game.isDead() && !game.isPlaying() && mouseEvent.getY() >= game.getMenus().getButton1Y() &&
                 mouseEvent.getY() <= game.getMenus().getButton1Height() + game.getMenus().getButton1Y() &&
                 mouseEvent.getX() >= game.getMenus().getButton1X() &&
                 mouseEvent.getX() <= game.getMenus().getButton1Width() + game.getMenus().getButton1X()) {
+            game.isDead(false);
+            game.isPlaying(true);
+            game.getKeyboardInteraction().addJumpMechanic();
+            game.restartGame();
+        }
+        if (!game.isStarted() && mouseEvent.getY() >= game.getMenus().getButton1Y() &&
+                mouseEvent.getY() <= game.getMenus().getButton1Height() + game.getMenus().getButton1Y() &&
+                mouseEvent.getX() >= game.getMenus().getButton1X() &&
+                mouseEvent.getX() <= game.getMenus().getButton1Width() + game.getMenus().getButton1X()) {
+            game.isStarted(true);
             game.getMenus().removeStartMenu();
+            game.initGame();
             game.startGame();
+
         }
         if (mouseEvent.getY() >= game.getMenus().getMuteButtonY() &&
                 mouseEvent.getY() <= game.getMenus().getMuteButtonHeight() + game.getMenus().getMuteButtonY() &&

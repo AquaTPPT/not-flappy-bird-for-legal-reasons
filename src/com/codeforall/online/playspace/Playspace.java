@@ -19,12 +19,12 @@ public class Playspace {
     private MouseInteraction mouseInteraction;
 
     public Playspace(Game game) {
-        menus = new Menus(this);
         mouseInteraction = game.getMouseInteraction();
+        menus = new Menus(this, mouseInteraction);
     }
     public void init() {
         Canvas.setMaxX(720);
-        Canvas.setMaxY(1600);
+        Canvas.setMaxY(1080);
 
         background = new Picture(0, 300, Main.PREFIX + "bg_5.png");
         background.draw();
@@ -45,6 +45,10 @@ public class Playspace {
 
     public Menus getMenus() {
         return menus;
+    }
+
+    public MouseInteraction getMouseInteraction() {
+        return mouseInteraction;
     }
 
     public int getCenterWidth() { return backgroundWidth / 2; }
