@@ -34,11 +34,10 @@ public class Game implements ActionListener {
 
     // Player
     private Player player = new Player(this);
-    private boolean isPlaying = true, isGrown, isPaused = false;
+    private boolean isPlaying = true, isPaused = false;
 
-    // Scoreboard
-    private Text text, textScore;
-    private int score;
+    //Score
+    private Score score;
 
     // Sound Effects
     private Music bgm;
@@ -61,14 +60,9 @@ public class Game implements ActionListener {
         tubes1.spawnTubes(800, Random.randomInt(-900, 0));
         tubes2.spawnTubes(1200, Random.randomInt(-900, 0));
         tubes3.spawnTubes(1600, Random.randomInt(-900, 0));
-        text = new Text( 70, 50, "SCORE:");
-        text.setColor(Color.WHITE);
-        text.draw();
-        text.grow(50, 50);
-        textScore = new Text(185, 50, Integer.toString(score));
-        textScore.setColor(Color.ORANGE);
-        textScore.draw();
-        textScore.grow(12, 50);
+
+        score = new Score();
+        score.init();
 
         player.init(playSpace);
 
@@ -115,34 +109,20 @@ public class Game implements ActionListener {
     public void sumScore() {
 
         if (player.getX() > tubes1.getUpperX() + tubes1.getUpperWidth() && !tubes1.isPassed()) {
-            score++;
-            scoreSound.play();
             tubes1.setPassed();
-            textScore.setText(Integer.toString(score));
+            scoreSound.play();
+            score.increment();
         }
 
         if (player.getX() > tubes2.getUpperX() + tubes2.getUpperWidth() && !tubes2.isPassed()) {
-            score++;
-            scoreSound.play();
             tubes2.setPassed();
-            textScore.setText(Integer.toString(score));
-        }
+            scoreSound.play();
+            score.increment();        }
 
         if (player.getX() > tubes3.getUpperX() + tubes3.getUpperWidth() && !tubes3.isPassed()) {
-            score++;
-            scoreSound.play();
             tubes3.setPassed();
-            textScore.setText(Integer.toString(score));
-        }
-
-        if (score == 10 && !isGrown) {
-            textScore.grow(12, 0);
-            isGrown = true;
-        }
-
-        if (score == 100 && isGrown) {
-            textScore.grow(12, 0);
-            isGrown = false;
+            scoreSound.play();
+            score.increment();
         }
     }
 
