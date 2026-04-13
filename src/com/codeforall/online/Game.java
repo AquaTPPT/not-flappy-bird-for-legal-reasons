@@ -38,9 +38,8 @@ public class Game implements ActionListener {
     private Player player = new Player(this);
     private boolean isPlaying = true, isGrown, isPaused = false, isDead = false, isStarted = false;
 
-    // Scoreboard (this could also be in Menus, on GUI)
-    private Text text, textScore;
-    private int score;
+    //Score
+    private Score score;
 
     // Sound Effects
     private boolean isMuted = false;
@@ -64,15 +63,9 @@ public class Game implements ActionListener {
         tubes2.spawnTubes(1200, Random.randomInt(-500, -100));
         tubes3.spawnTubes(1600, Random.randomInt(-500, -100));
 
-        // change to a separate class later!
-        text = new Text( 70, 50, "SCORE:");
-        text.setColor(Color.WHITE);
-        text.draw();
-        text.grow(50, 50);
-        textScore = new Text(185, 50, Integer.toString(score));
-        textScore.setColor(Color.ORANGE);
-        textScore.draw();
-        textScore.grow(12, 50);
+        score = new Score();
+        score.init();
+
         player.init(playSpace);
         keyboardInteraction.initializeKeyboard();
         mouseInteraction.initializeMouse();
@@ -124,34 +117,24 @@ public class Game implements ActionListener {
     public void sumScore() {
 
         if (player.getX() > tubes1.getUpperX() + tubes1.getUpperWidth() && !tubes1.isPassed()) {
-            score++;
+
+            score.increment();
             gameSound.playScore();
             tubes1.setPassed();
-            textScore.setText(Integer.toString(score));
         }
 
         if (player.getX() > tubes2.getUpperX() + tubes2.getUpperWidth() && !tubes2.isPassed()) {
-            score++;
+
+            score.increment();
             gameSound.playScore();
             tubes2.setPassed();
-            textScore.setText(Integer.toString(score));
         }
 
         if (player.getX() > tubes3.getUpperX() + tubes3.getUpperWidth() && !tubes3.isPassed()) {
-            score++;
+
+            score.increment();
             gameSound.playScore();
             tubes3.setPassed();
-            textScore.setText(Integer.toString(score));
-        }
-
-        if (score == 10 && !isGrown) {
-            textScore.grow(12, 0);
-            isGrown = true;
-        }
-
-        if (score == 100 && isGrown) {
-            textScore.grow(12, 0);
-            isGrown = false;
         }
     }
 
