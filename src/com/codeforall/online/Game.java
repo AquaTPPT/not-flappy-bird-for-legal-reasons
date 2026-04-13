@@ -2,6 +2,7 @@ package com.codeforall.online;
 
 import com.codeforall.online.Player.*;
 import com.codeforall.online.playspace.*;
+import com.codeforall.online.sound.GameSound;
 import com.codeforall.online.statics.Random;
 import com.codeforall.simplegraphics.graphics.Color;
 import com.codeforall.simplegraphics.graphics.Text;
@@ -41,8 +42,8 @@ public class Game implements ActionListener {
     private int score;
 
     // Sound Effects
-    private Music bgm;
-    private Sound death, scoreSound;
+    private GameSound gameSound = new GameSound();
+
 
     public Game() {
         mouseInteraction = new MouseInteraction(this);
@@ -72,15 +73,15 @@ public class Game implements ActionListener {
 
         player.init(playSpace);
 
-        TinySound.init();
-        TinySound.setGlobalVolume(0.25);
-        bgm = TinySound.loadMusic(new File(Main.PREFIX + "game_music.wav"));
-        death = TinySound.loadSound(new File(Main.PREFIX + "death.wav"));
-        scoreSound = TinySound.loadSound(new File(Main.PREFIX + "score.wav"));
+//        TinySound.init();
+//        TinySound.setGlobalVolume(0.25);
+//        bgm = TinySound.loadMusic(new File(Main.PREFIX + "game_music.wav"));
+//        death = TinySound.loadSound(new File(Main.PREFIX + "death.wav"));
+//        scoreSound = TinySound.loadSound(new File(Main.PREFIX + "score.wav"));
 
-        if (bgm != null) {
-            bgm.play(true);
-        }
+
+        gameSound.playBgm();
+
 
         keyboardInteraction.initializeKeyboard();
         mouseInteraction.initializeMouse();
@@ -101,8 +102,8 @@ public class Game implements ActionListener {
                         tubes.getLowerY() + tubes.getLowerHeight() >= player.getY() ) {
             keyboardInteraction.removeJumpMechanic();
             player.setDeadPicture();
-            bgm.stop();
-            death.play();
+            gameSound.stopBgm();
+            gameSound.playDeath();
             timer.stop();
         }
         return isPlaying;
@@ -116,21 +117,21 @@ public class Game implements ActionListener {
 
         if (player.getX() > tubes1.getUpperX() + tubes1.getUpperWidth() && !tubes1.isPassed()) {
             score++;
-            scoreSound.play();
+            gameSound.playScore();
             tubes1.setPassed();
             textScore.setText(Integer.toString(score));
         }
 
         if (player.getX() > tubes2.getUpperX() + tubes2.getUpperWidth() && !tubes2.isPassed()) {
             score++;
-            scoreSound.play();
+            gameSound.playScore();
             tubes2.setPassed();
             textScore.setText(Integer.toString(score));
         }
 
         if (player.getX() > tubes3.getUpperX() + tubes3.getUpperWidth() && !tubes3.isPassed()) {
             score++;
-            scoreSound.play();
+            gameSound.playScore();
             tubes3.setPassed();
             textScore.setText(Integer.toString(score));
         }
@@ -149,16 +150,16 @@ public class Game implements ActionListener {
     public void resumeGame() {
         isPlaying = true;
         timer.start();
-        bgm.resume();
+        gameSound.resumeBgm();
         keyboardInteraction.addJumpMechanic();
     }
 
     public void stopGame() {
         isPlaying = false;
         timer.stop();
-        bgm.pause();
-        death.stop();
-        scoreSound.stop();
+        gameSound.pauseBgm();
+        gameSound.stopDeath();
+        gameSound.stopScore();
         keyboardInteraction.removeJumpMechanic();
 
     }
