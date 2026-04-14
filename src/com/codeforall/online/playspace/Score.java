@@ -39,6 +39,11 @@ public class Score {
 
     }
 
+    public void restartScore() {
+        score = 0;
+        textScore.setText(Integer.toString(score));
+    }
+
     public int getScore(){
         return this.score;
     }

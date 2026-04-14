@@ -61,7 +61,7 @@ public class Game implements ActionListener {
     public void initGame() {
         tubes1.spawnTubes(800, Random.randomInt(-500, -100));
         tubes2.spawnTubes(1200, Random.randomInt(-500, -100));
-        tubes3.spawnTubes(1600, Random.randomInt(-500, -100));
+        tubes3.spawnTubes(1600, Random.randomInt(-500, -300));
 
         score = new Score();
         score.init();
@@ -78,9 +78,12 @@ public class Game implements ActionListener {
         tubes3.resetPosition();
         startGame();
         menus.closeGameOverScreen();
+        score.restartScore();
+        gameSound.stopBadSound();
     }
 
     public void startGame() {
+        gameSound.stopBadSound();
         gameSound.playBgm();
         timer.start();
     }
