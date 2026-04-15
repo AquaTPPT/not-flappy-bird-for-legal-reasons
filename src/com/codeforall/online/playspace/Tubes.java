@@ -20,7 +20,7 @@ public class Tubes {
 
     public void resetPosition() {
         upperTube.resetPosition(spawnTubesX ,spawnTubesY);
-        lowerTube.resetPosition(spawnTubesX,spawnTubesY + 1200);
+        lowerTube.resetPosition(spawnTubesX,(spawnTubesY + 1200));
     }
 
     class UpperTube {
@@ -92,7 +92,7 @@ public class Tubes {
 
         if (upperTube.hitbox.getX() + upperTube.hitbox.getWidth() + 40 < 0) {
             int newX = 1060;
-            int newUpperY = Random.randomInt(-900, 0);
+            int newUpperY = Random.randomInt(-800, -300);
             int newLowerY = newUpperY + 1200;
 
             upperTube.resetPosition(newX, newUpperY);

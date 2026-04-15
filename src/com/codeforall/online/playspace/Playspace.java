@@ -4,17 +4,11 @@ import com.codeforall.online.Game;
 import com.codeforall.online.Main;
 import com.codeforall.online.Player.MouseInteraction;
 import com.codeforall.simplegraphics.graphics.Canvas;
-import com.codeforall.simplegraphics.graphics.Rectangle;
-import com.codeforall.simplegraphics.graphics.Text;
 import com.codeforall.simplegraphics.pictures.Picture;
 
 
 public class Playspace {
-    private Rectangle rectangle;
-    private final int CELLSIZE = 25;
     private int backgroundHeight;
-    private int backgroundWidth;
-    private Picture background;
     private Menus menus;
     private MouseInteraction mouseInteraction;
 
@@ -26,19 +20,14 @@ public class Playspace {
         Canvas.setMaxX(720);
         Canvas.setMaxY(1080);
 
-        background = new Picture(0, 300, Main.PREFIX + "bg_5.png");
+        Picture background = new Picture(0, 300, Main.PREFIX + "bg_5.png");
         background.draw();
         background.grow(370,800);
         backgroundHeight = background.getHeight();
-        backgroundWidth = background.getWidth();
     }
 
     public int getBackgroundHeight() {
         return backgroundHeight;
-    }
-
-    public int getBackgroundWidth() {
-        return backgroundWidth;
     }
 
     public void startPauseMenu() { menus.startPauseMenu(mouseInteraction); }
@@ -50,8 +39,4 @@ public class Playspace {
     public MouseInteraction getMouseInteraction() {
         return mouseInteraction;
     }
-
-    public int getCenterWidth() { return backgroundWidth / 2; }
-
-    public int getCenterHeight() { return backgroundHeight / 2; }
 }

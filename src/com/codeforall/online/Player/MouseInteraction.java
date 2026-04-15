@@ -1,14 +1,14 @@
 package com.codeforall.online.Player;
 
 import com.codeforall.online.Game;
-import com.codeforall.online.playspace.Menus;
 import com.codeforall.simplegraphics.mouse.Mouse;
 import com.codeforall.simplegraphics.mouse.MouseEvent;
 import com.codeforall.simplegraphics.mouse.MouseEventType;
 import com.codeforall.simplegraphics.mouse.MouseHandler;
 import kuusisto.tinysound.*;
 
-public class MouseInteraction implements MouseHandler {    private Mouse mouse;
+public class MouseInteraction implements MouseHandler {
+    private Mouse mouse;
     private Game game;
 
     public MouseInteraction(Game game) {
@@ -24,10 +24,6 @@ public class MouseInteraction implements MouseHandler {    private Mouse mouse;
         mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
     }
 
-    public void removeMouseListener() {
-        mouse.removeEventListener(MouseEventType.MOUSE_CLICKED);
-    }
-
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
         if (!game.isDead() && !game.isPlaying() && mouseEvent.getY() >= game.getMenus().getButtonY() &&
@@ -35,7 +31,6 @@ public class MouseInteraction implements MouseHandler {    private Mouse mouse;
                 mouseEvent.getX() >= game.getMenus().getButtonX() &&
                 mouseEvent.getX() <= game.getMenus().getButtonWidth() + game.getMenus().getButtonX()) {
             game.getMenus().removePauseMenu();
-            removeMouseListener();
             game.isPaused(false);
             game.resumeGame();
         }
@@ -63,12 +58,16 @@ public class MouseInteraction implements MouseHandler {    private Mouse mouse;
                 mouseEvent.getY() <= game.getMenus().getMuteButtonHeight() + game.getMenus().getMuteButtonY() &&
                 mouseEvent.getX() >= game.getMenus().getMuteButtonX() &&
                 mouseEvent.getX() <= game.getMenus().getMuteButtonWidth() + game.getMenus().getMuteButtonX()) {
-            if (game.isMuted()) {
-                game.isMuted(false);
+            if (!game.isMuted()) {
+                game.isMuted(true);
+              game.getMenus().getMuteButtonOff().draw();
+                game.getMenus().removeMuteButtonOn();
                 TinySound.setGlobalVolume(0);
             }
             else {
-                game.isMuted(true);
+                game.isMuted(false);
+                game.getMenus().getMuteButtonOff().delete();
+                game.getMenus().addMuteButtonOn();
                 TinySound.setGlobalVolume(0.25);
             }
         }

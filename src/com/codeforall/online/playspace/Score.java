@@ -5,13 +5,13 @@ import com.codeforall.simplegraphics.graphics.Text;
 
 public class Score {
 
-    private Text text, textScore;
+    Text textScore;
     private int score;
     private boolean isGrown;
 
     public void init() {
 
-        text = new Text(70, 50, "SCORE:");
+        Text text = new Text(70, 50, "SCORE:");
         text.setColor(Color.WHITE);
         text.draw();
         text.grow(50, 50);
@@ -42,9 +42,5 @@ public class Score {
     public void restartScore() {
         score = 0;
         textScore.setText(Integer.toString(score));
-    }
-
-    public int getScore(){
-        return this.score;
     }
 }

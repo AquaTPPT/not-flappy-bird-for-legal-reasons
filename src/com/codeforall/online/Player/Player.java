@@ -1,32 +1,18 @@
 package com.codeforall.online.Player;
 
 import com.codeforall.online.Main;
-import com.codeforall.online.Game;
-import com.codeforall.online.playspace.Menus;
 import com.codeforall.online.playspace.Playspace;
-import com.codeforall.simplegraphics.graphics.Color;
 import com.codeforall.simplegraphics.graphics.Rectangle;
-import com.codeforall.simplegraphics.keyboard.Keyboard;
-import com.codeforall.simplegraphics.keyboard.KeyboardEvent;
-import com.codeforall.simplegraphics.keyboard.KeyboardEventType;
-import com.codeforall.simplegraphics.keyboard.KeyboardHandler;
 import com.codeforall.simplegraphics.pictures.Picture;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Player  {
     private Rectangle rectangle;
     private Playspace playspace;
-    private Game game;
     private Picture birdOpen, birdClosed, birdDive;
-    private double gravity = 0.8;
     private double velocity = 0;
-    private int spawnX = 100;
-    private int spawnY = 300;
+    private int spawnX = 100, spawnY = 300;
 
-    public Player(Game game) {
-        this.game = game;
+    public Player() {
         rectangle = new Rectangle(spawnX, spawnY,50,50);
         birdOpen = new Picture(rectangle.getX(),rectangle.getY(), Main.PREFIX + "bird_open.png");
         birdOpen.grow(10,10);
@@ -68,6 +54,7 @@ public class Player  {
     private int frames = 0;
 
     public void move() {
+        double gravity = 0.8;
         velocity += gravity;
 
         if (velocity >= 0){
@@ -87,7 +74,7 @@ public class Player  {
             frames++;
 
             if (frames % 10 == 0) {
-                birdClosed.draw();;
+                birdClosed.draw();
                 birdOpen.delete();
 
             } else {
@@ -112,10 +99,6 @@ public class Player  {
     public int getWidth() { return rectangle.getWidth(); }
 
     public int getHeight() { return rectangle.getHeight(); }
-
-    public int getSpawnY() {
-        return spawnY;
-    }
 
     public void setDeadPicture() {
         birdOpen.load(Main.PREFIX + "bird_dead1.png");

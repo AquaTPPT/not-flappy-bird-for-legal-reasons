@@ -3,7 +3,6 @@
  x Create hitbox
  x make it move forward in a constant motion
 
- - Score doesn't reset after new game;
- - Spongebob sound doesn't stop after the game starts
+    tubes are still spawning pretty low
 
 

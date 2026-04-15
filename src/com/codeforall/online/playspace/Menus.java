@@ -6,29 +6,23 @@ import com.codeforall.online.sound.GameSound;
 import com.codeforall.simplegraphics.graphics.Color;
 import com.codeforall.simplegraphics.graphics.Rectangle;
 import com.codeforall.simplegraphics.graphics.Text;
-import com.codeforall.simplegraphics.mouse.Mouse;
 import com.codeforall.simplegraphics.pictures.Picture;
 import kuusisto.tinysound.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 public class Menus {
     private PauseMenu pauseMenu;
     private MainMenu mainMenu;
     private GameOver gameOver;
-    private Playspace playspace;
-    private MouseInteraction mouseInteraction;
 
 
     public Menus(Playspace playspace, MouseInteraction mouseInteraction) {
-        this.playspace = playspace;
         pauseMenu = new PauseMenu(playspace, playspace.getMouseInteraction());
-        this.mouseInteraction = mouseInteraction;
         mainMenu = new MainMenu(mouseInteraction);
-        gameOver = new GameOver(playspace);
+        gameOver = new GameOver();
     }
 
     public void removePauseMenu() { pauseMenu.removePauseMenu(); }
@@ -37,17 +31,18 @@ public class Menus {
         pauseMenu.init();
     }
 
-    public void startMainMenu(MouseInteraction mouseInteraction) {
+    public void startMainMenu() {
         mainMenu.startMenu();
     }
 
-    public void startGameOverScreen(Playspace playspace) {
+    public void startGameOverScreen() {
         gameOver.startGameOverScreen();
     }
 
     public void closeGameOverScreen() {
         gameOver.closeGameOverScreen();
     }
+
 
     // pause menu button
     public int getButtonX() { return pauseMenu.getButtonX(); }
@@ -67,44 +62,52 @@ public class Menus {
     public int getMuteButtonWidth() { return mainMenu.getMuteButtonWidth(); }
     public int getMuteButtonHeight() { return mainMenu.getMuteButtonHeight(); }
 
+    public Picture getMuteButtonOff() { return mainMenu.getMuteButtonOff(); }
+    public void removeMuteButtonOn() { mainMenu.removeMuteButtonOn(); }
+    public void addMuteButtonOn() { mainMenu.addMuteButtonOn(); }
+
     public void removeStartMenu() {
         mainMenu.removeMenuButtons();
     }
 
     private class MainMenu {
-        private Rectangle gameLogo, startButton; //muteButton;
-        private Picture muteButton;
+        private Picture muteButtonOn, muteButtonOff, gameLogo, startButton;
         private MouseInteraction mouseInteraction;
+        private boolean hasInstanciated = false, hasInstanciated1 = false;
         private Timer startMenu = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                gameLogo.setColor(Color.ORANGE);
-                gameLogo.fill();
+                if (!hasInstanciated) {
+                    hasInstanciated = true;
+                    gameLogo.draw();
+                }
             }
         });
         private Timer startMenuButtons = new Timer(1500, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                startButton.setColor(Color.ORANGE);
-                startButton.fill();
-                muteButton.draw();
+                if (!hasInstanciated1) {
+                    hasInstanciated1 = true;
+                    startButton.draw();
+                }
             }
         });
 
         public MainMenu(MouseInteraction mouseInteraction) {
             this.mouseInteraction = mouseInteraction;
-            startButton = new Rectangle(265, 800, 200, 100);
-            gameLogo = new Rectangle(110, 150, 300, 200);
-            muteButton = new Picture(680, 0, Main.PREFIX + "sound_on.png");
+            startButton = new Picture(275, 600, Main.PREFIX + "Play_Button.png");
+            gameLogo = new Picture(140, 150, Main.PREFIX + "Logo_1.png");
+            muteButtonOn = new Picture(680, 0, Main.PREFIX + "sound_on.png");
+            muteButtonOff = new Picture(680,0,Main.PREFIX + "sound_off.png");
             TinySound.init();
             TinySound.setGlobalVolume(0.25);
         }
+
         public void startMenu() {
             startMenu.start();
             startMenuButtons.start();
-
             mouseInteraction.initializeMouse();
-            mouseInteraction.addMouseListener();
+            muteButtonOn.draw();
         }
 
         public int getButtonX() { return startButton.getX(); }
@@ -112,33 +115,38 @@ public class Menus {
         public int getButtonWidth() { return startButton.getWidth(); }
         public int getButtonHeight() { return startButton.getHeight(); }
 
-        public int getMuteButtonX() { return muteButton.getX(); }
-        public int getMuteButtonY() { return muteButton.getY(); }
-        public int getMuteButtonWidth() { return muteButton.getWidth(); }
-        public int getMuteButtonHeight() { return muteButton.getHeight(); }
+        public int getMuteButtonX() { return muteButtonOn.getX(); }
+        public int getMuteButtonY() { return muteButtonOn.getY(); }
+        public int getMuteButtonWidth() { return muteButtonOn.getWidth(); }
+        public int getMuteButtonHeight() { return muteButtonOn.getHeight(); }
+
+        public Picture getMuteButtonOff() { return muteButtonOff; }
+
+        public void removeMuteButtonOn() {
+            muteButtonOn.delete();
+        }
+        public void addMuteButtonOn() { muteButtonOn.draw(); }
 
         public void removeMenuButtons() {
             startMenu.stop();
             gameLogo.delete();
             startMenuButtons.stop();
             startButton.delete();
-            muteButton.delete();
-            mouseInteraction.removeMouseListener();
+            muteButtonOn.delete();
+            muteButtonOff.delete();
         }
     }
 
     private class PauseMenu {
         private Picture picture;
         private Playspace playspace;
-        private Text text;
-        private Text buttonText;
+        private Text text; // Change to Picture later
         private Rectangle button; // change this to picture later!!
         private MouseInteraction mouseInteraction;
 
         public PauseMenu(Playspace playspace, MouseInteraction mouseInteraction) {
             this.mouseInteraction = mouseInteraction;
             this.playspace = playspace;
-            mouseInteraction.initializeMouse();
         }
 
         public void init() {
@@ -173,29 +181,19 @@ public class Menus {
     private class GameOver {
         private Rectangle playAgain;
         private Rectangle gameOver;
-        private MouseInteraction mouseInteraction;
-        private Playspace playspace;
-        private GameSound gameSound;
-        private boolean sfxPlayed = false;
 
-        private Timer gameOverScreen = new Timer(1000, new ActionListener() {
+        private Timer gameOverScreen = new Timer(1700, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 gameOver.setColor(Color.ORANGE);
                 gameOver.fill();
                 playAgain.setColor(Color.ORANGE);
                 playAgain.fill();
-                if (!sfxPlayed) {
-                    sfxPlayed = true;
-                    gameSound.playBadSound();
-                }
             }
         });
-        public GameOver(Playspace playspace) {
-            this.playspace = playspace;
-            playAgain = new Rectangle(265, 800, 200, 100);
+        public GameOver() {
+            playAgain = new Rectangle(275, 600, 200, 104);
             gameOver = new Rectangle(110, 150, 300, 200);
-            gameSound = new GameSound();
         }
 
         public void startGameOverScreen() {
@@ -207,15 +205,6 @@ public class Menus {
             playAgain.delete();
             gameOver.delete();
         }
-
-        public void setSfxPlayedFalse(){
-            sfxPlayed = false;
-        }
-
-    }
-
-    public void setSfxPlayedFalse() {
-        gameOver.setSfxPlayedFalse();
     }
 
 }

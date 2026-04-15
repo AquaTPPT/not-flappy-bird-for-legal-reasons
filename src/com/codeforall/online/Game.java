@@ -4,15 +4,11 @@ import com.codeforall.online.Player.*;
 import com.codeforall.online.playspace.*;
 import com.codeforall.online.sound.GameSound;
 import com.codeforall.online.statics.Random;
-import com.codeforall.simplegraphics.graphics.Canvas;
-import com.codeforall.simplegraphics.graphics.Color;
-import com.codeforall.simplegraphics.graphics.Text;
 import kuusisto.tinysound.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.*;
-import java.io.File;
 import javax.swing.*;
 
 
@@ -35,8 +31,8 @@ public class Game implements ActionListener {
     private Timer timer = new Timer(16, this);
 
     // Player
-    private Player player = new Player(this);
-    private boolean isPlaying = true, isGrown, isPaused = false, isDead = false, isStarted = false;
+    private Player player = new Player();
+    private boolean isPlaying = true, isPaused = false, isDead = false, isStarted = false;
 
     //Score
     private Score score;
@@ -55,20 +51,19 @@ public class Game implements ActionListener {
 
     public void init() {
         playSpace.init();
-        menus.startMainMenu(mouseInteraction);
+        menus.startMainMenu();
     }
 
     public void initGame() {
-        tubes1.spawnTubes(800, Random.randomInt(-500, -100));
-        tubes2.spawnTubes(1200, Random.randomInt(-500, -100));
-        tubes3.spawnTubes(1600, Random.randomInt(-500, -300));
+        tubes1.spawnTubes(800, Random.randomInt(-800, -300));
+        tubes2.spawnTubes(1200, Random.randomInt(-800, -300));
+        tubes3.spawnTubes(1600, Random.randomInt(-800, -300));
 
         score = new Score();
         score.init();
 
         player.init(playSpace);
         keyboardInteraction.initializeKeyboard();
-        mouseInteraction.initializeMouse();
     }
 
     public void restartGame() {
@@ -79,16 +74,14 @@ public class Game implements ActionListener {
         startGame();
         menus.closeGameOverScreen();
         score.restartScore();
-        gameSound.stopBadSound();
     }
 
     public void startGame() {
-        gameSound.stopBadSound();
         gameSound.playBgm();
         timer.start();
     }
 
-    public boolean collisionDetector(Tubes tubes) {
+    public void collisionDetector(Tubes tubes) {
 
         if (player.getY() + player.getHeight() >= playSpace.getBackgroundHeight() ||
             player.getX() + player.getWidth() >= tubes.getUpperX() &&
@@ -108,9 +101,8 @@ public class Game implements ActionListener {
             gameSound.stopBgm();
             gameSound.playDeath();
             timer.stop();
-            menus.startGameOverScreen(playSpace);
+            menus.startGameOverScreen();
         }
-        return isPlaying;
     }
 
     public MouseInteraction getMouseInteraction() {
@@ -188,7 +180,6 @@ public class Game implements ActionListener {
             collisionDetector(tubes2);
             collisionDetector(tubes3);
             sumScore();
-            menus.setSfxPlayedFalse();
     }
 
     public KeyboardInteraction getKeyboardInteraction() {

@@ -8,7 +8,7 @@ import java.io.File;
 public class GameSound {
 
     private Music bgm;
-    private kuusisto.tinysound.Sound death, scoreSound, badSound;
+    private kuusisto.tinysound.Sound death, scoreSound;
 
     public GameSound() {
         TinySound.init();
@@ -16,7 +16,6 @@ public class GameSound {
         this.bgm = TinySound.loadMusic(new File(Main.PREFIX + "game_music.wav"));
         this.death = TinySound.loadSound(new File(Main.PREFIX + "death.wav"));
         this.scoreSound = TinySound.loadSound(new File(Main.PREFIX + "score.wav"));
-        this.badSound = TinySound.loadSound(new File(Main.PREFIX + "Spongebob_Disgusting_sfx.wav"));
     }
 
     public void playBgm() {
@@ -50,17 +49,5 @@ public class GameSound {
     public void stopScore() {
         scoreSound.stop();
     }
-
-    public void playBadSound() {
-        badSound.play();
-    }
-
-    public void stopBadSound() {
-        badSound.stop();
-    }
-
-
-
-
 
 }
