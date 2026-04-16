@@ -1,5 +1,6 @@
 package com.codeforall.online.playspace;
 
+import com.codeforall.online.Main;
 import com.codeforall.online.statics.Random;
 import com.codeforall.simplegraphics.graphics.Color;
 import com.codeforall.simplegraphics.graphics.Rectangle;
@@ -29,7 +30,7 @@ public class Tubes {
 
         public UpperTube(int startingX, int startingY) {
 
-            image = new Picture(startingX - 20, startingY, "assets/tube_upper.png");
+            image = new Picture(startingX - 20, startingY, Main.PREFIX + "tube_upper.png");
             image.draw();
 
             hitbox = new Rectangle(startingX,startingY, 100,1000);
@@ -57,7 +58,7 @@ public class Tubes {
 
         public LowerTube(int startingX, int startingY) {
 
-            image = new Picture(startingX - 20, startingY, "assets/tube_lower.png");
+            image = new Picture(startingX - 20, startingY, Main.PREFIX + "/tube_lower.png");
             image.draw();
 
             hitbox = new Rectangle(startingX, startingY, 100,1000);
