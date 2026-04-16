@@ -13,9 +13,9 @@ public class GameSound {
     public GameSound() {
         TinySound.init();
         TinySound.setGlobalVolume(0.25);
-        this.bgm = TinySound.loadMusic(new File(Main.PREFIX + "game_music.wav"));
-        this.death = TinySound.loadSound(new File(Main.PREFIX + "death.wav"));
-        this.scoreSound = TinySound.loadSound(new File(Main.PREFIX + "score.wav"));
+        this.bgm = TinySound.loadMusic(getClass().getClassLoader().getResource(Main.PREFIX + "game_music.wav"));
+        this.death = TinySound.loadSound(getClass().getClassLoader().getResource(Main.PREFIX + "death.wav"));
+        this.scoreSound = TinySound.loadSound(getClass().getClassLoader().getResource(Main.PREFIX + "score.wav"));
     }
 
     public void playBgm() {

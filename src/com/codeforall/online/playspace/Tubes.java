@@ -58,7 +58,7 @@ public class Tubes {
 
         public LowerTube(int startingX, int startingY) {
 
-            image = new Picture(startingX - 20, startingY, Main.PREFIX + "/tube_lower.png");
+            image = new Picture(startingX - 20, startingY, Main.PREFIX + "tube_lower.png");
             image.draw();
 
             hitbox = new Rectangle(startingX, startingY, 100,1000);
