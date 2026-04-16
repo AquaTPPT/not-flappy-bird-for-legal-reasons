@@ -28,13 +28,25 @@ public class KeyboardInteraction implements KeyboardHandler {
         pause.setKey(KeyboardEvent.KEY_ESC);
         pause.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         k.addEventListener(pause);
+
+        KeyboardEvent quit = new KeyboardEvent();
+        quit.setKey(KeyboardEvent.KEY_Q);
+        quit.setKeyboardEventType((KeyboardEventType.KEY_PRESSED));
+        k.addEventListener(quit);
     }
 
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
+
+        if (keyboardEvent.getKey() == KeyboardEvent.KEY_Q) {
+            System.exit(0);
+        }
+
+
         if (keyboardEvent.getKey() == KeyboardEvent.KEY_SPACE && !game.isPaused()) {
             player.jump();
         }
+
         if (keyboardEvent.getKey() == KeyboardEvent.KEY_ESC && !game.isPaused() && !game.isDead()) {
             game.stopGame();
             game.isPaused(true);
