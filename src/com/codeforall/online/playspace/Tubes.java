@@ -29,13 +29,11 @@ public class Tubes {
 
         public UpperTube(int startingX, int startingY) {
 
-
             image = new Picture(startingX - 20, startingY, "assets/tube_upper.png");
             image.draw();
 
             hitbox = new Rectangle(startingX,startingY, 100,1000);
             hitbox.setColor(Color.ORANGE);
-            //hitbox.draw();
         }
 
         public void move() {
@@ -64,7 +62,6 @@ public class Tubes {
 
             hitbox = new Rectangle(startingX, startingY, 100,1000);
             hitbox.setColor(Color.ORANGE);
-            //hitbox.draw();
         }
 
         public void move() {

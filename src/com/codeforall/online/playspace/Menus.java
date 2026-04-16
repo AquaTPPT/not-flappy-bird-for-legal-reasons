@@ -2,9 +2,6 @@ package com.codeforall.online.playspace;
 
 import com.codeforall.online.Main;
 import com.codeforall.online.Player.MouseInteraction;
-import com.codeforall.simplegraphics.graphics.Color;
-import com.codeforall.simplegraphics.graphics.Rectangle;
-import com.codeforall.simplegraphics.graphics.Text;
 import com.codeforall.simplegraphics.pictures.Picture;
 import kuusisto.tinysound.*;
 
