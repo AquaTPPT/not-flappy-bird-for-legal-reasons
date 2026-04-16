@@ -188,13 +188,13 @@ public class Menus {
         });
         public GameOver() {
             playAgain = new Picture(260, 600, Main.PREFIX + "Play_Again_1.png");
-            gameOver = new Picture(280, 250, Main.PREFIX + "Game_Over.png");
+            gameOver = new Picture(160, 250, Main.PREFIX + "Game_Over.png");
         }
 
         public void startGameOverScreen() {
             gameOverScreen.start();
             gameOver.draw();
-            gameOver.grow(80,50);
+            //gameOver.grow(80,50);
             playAgain.draw();
 
         }

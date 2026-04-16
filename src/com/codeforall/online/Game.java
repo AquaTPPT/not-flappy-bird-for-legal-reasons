@@ -137,7 +137,6 @@ public class Game implements ActionListener {
         isPlaying = true;
         timer.start();
         gameSound.resumeBgm();
-        //keyboardInteraction.addJumpMechanic();
     }
 
     public void stopGame() {
@@ -146,7 +145,6 @@ public class Game implements ActionListener {
         gameSound.pauseBgm();
         gameSound.stopDeath();
         gameSound.stopScore();
-        //keyboardInteraction.removeJumpMechanic();
     }
 
     public Menus getMenus() { return menus; }
