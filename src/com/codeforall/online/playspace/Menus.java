@@ -2,7 +2,6 @@ package com.codeforall.online.playspace;
 
 import com.codeforall.online.Main;
 import com.codeforall.online.Player.MouseInteraction;
-import com.codeforall.online.sound.GameSound;
 import com.codeforall.simplegraphics.graphics.Color;
 import com.codeforall.simplegraphics.graphics.Rectangle;
 import com.codeforall.simplegraphics.graphics.Text;
@@ -140,8 +139,8 @@ public class Menus {
     private class PauseMenu {
         private Picture picture;
         private Playspace playspace;
-        private Text text; // Change to Picture later
-        private Rectangle button; // change this to picture later!!
+        private Picture gamePaused;
+        private Picture button;
         private MouseInteraction mouseInteraction;
 
         public PauseMenu(Playspace playspace, MouseInteraction mouseInteraction) {
@@ -153,23 +152,23 @@ public class Menus {
             picture = new Picture(5,0, Main.PREFIX + "pausemenubackground.png");
             picture.grow(5,0);
             picture.draw();
-            text = new Text(360, 200, "Pause");
-            text.draw();
-            text.grow(175,100);
+
+            gamePaused = new Picture(280, 200, Main.PREFIX + "Game_Paused.png");
+            gamePaused.draw();
+            gamePaused.grow(175,100);
+
             createButton();
         }
 
         public void removePauseMenu() {
             picture.delete();
-            text.delete();
+            gamePaused.delete();
             button.delete();
         }
 
         private void createButton() {
-            button = new Rectangle(260, 600, 200,100);
+            button = new Picture(260, 600, Main.PREFIX + "Resume_Game_1.png");
             button.draw();
-            button.setColor(Color.ORANGE);
-            button.fill();
         }
 
         public int getButtonX() { return button.getX(); }
@@ -179,25 +178,25 @@ public class Menus {
     }
 
     private class GameOver {
-        private Rectangle playAgain;
-        private Rectangle gameOver;
+        private Picture playAgain;
+        private Picture gameOver;
 
         private Timer gameOverScreen = new Timer(1700, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                gameOver.setColor(Color.ORANGE);
-                gameOver.fill();
-                playAgain.setColor(Color.ORANGE);
-                playAgain.fill();
             }
         });
         public GameOver() {
-            playAgain = new Rectangle(275, 600, 200, 104);
-            gameOver = new Rectangle(110, 150, 300, 200);
+            playAgain = new Picture(260, 600, Main.PREFIX + "Play_Again_1.png");
+            gameOver = new Picture(280, 250, Main.PREFIX + "Game_Over.png");
         }
 
         public void startGameOverScreen() {
             gameOverScreen.start();
+            gameOver.draw();
+            gameOver.grow(80,50);
+            playAgain.draw();
+
         }
 
         public void closeGameOverScreen() {
