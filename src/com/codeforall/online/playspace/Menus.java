@@ -193,13 +193,15 @@ public class Menus {
             gameOver.draw();
             //gameOver.grow(80,50);
             playAgain.draw();
-
+            addMuteButtonOn();
         }
 
         public void closeGameOverScreen() {
             gameOverScreen.stop();
             playAgain.delete();
             gameOver.delete();
+            removeMuteButtonOn();
+            getMuteButtonOff().delete();
         }
     }
 

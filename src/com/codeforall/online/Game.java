@@ -52,6 +52,7 @@ public class Game implements ActionListener {
     public void init() {
         playSpace.init();
         menus.startMainMenu();
+        keyboardInteraction.initializeKeyboard();
     }
 
     public void initGame() {
@@ -63,7 +64,6 @@ public class Game implements ActionListener {
         score.init();
 
         player.init(playSpace);
-        keyboardInteraction.initializeKeyboard();
     }
 
     public void restartGame() {
