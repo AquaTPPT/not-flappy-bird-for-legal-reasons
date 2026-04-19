@@ -60,7 +60,7 @@ public class MouseInteraction implements MouseHandler {
                 mouseEvent.getX() <= game.getMenus().getMuteButtonWidth() + game.getMenus().getMuteButtonX()) {
             if (!game.isMuted()) {
                 game.isMuted(true);
-              game.getMenus().getMuteButtonOff().draw();
+                game.getMenus().getMuteButtonOff().draw();
                 game.getMenus().removeMuteButtonOn();
                 TinySound.setGlobalVolume(0);
             }

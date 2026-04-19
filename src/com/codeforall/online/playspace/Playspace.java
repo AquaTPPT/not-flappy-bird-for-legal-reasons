@@ -11,10 +11,12 @@ public class Playspace {
     private int backgroundHeight;
     private Menus menus;
     private MouseInteraction mouseInteraction;
+    private Game game;
 
     public Playspace(Game game) {
         mouseInteraction = game.getMouseInteraction();
         menus = new Menus(this, mouseInteraction);
+        this.game = game;
     }
     public void init() {
         Canvas.setMaxX(720);
@@ -24,6 +26,10 @@ public class Playspace {
         background.draw();
         background.grow(370,800);
         backgroundHeight = background.getHeight();
+    }
+
+    public Game getGame() {
+        return game;
     }
 
     public int getBackgroundHeight() {

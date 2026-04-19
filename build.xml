@@ -1,9 +1,9 @@
 <?xml version="1.0" ?>
-<project name="NotFlappyBird" default="jarfile">
+<project name="FlappingDuck" default="jarfile">
 
     <!-- Initialize build properties  -->
     <target name="init" description="Initializes properties">
-        <property name="project.name" value="NotFlappyBird" />
+        <property name="project.name" value="FlappingDuck" />
         <property name="src.dir" value="src" />
         <property name="main.class" value="com.codeforall.online.Main" />
         <property name="build.dir" value="build" />
