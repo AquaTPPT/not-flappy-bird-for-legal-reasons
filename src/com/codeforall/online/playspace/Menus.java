@@ -41,11 +41,6 @@ public class Menus {
         gameOver.closeGameOverScreen();
     }
 
-    public void moveClouds() {
-        mainMenu.moveClouds();
-    }
-
-
     // pause menu button
     public int getButtonX() { return pauseMenu.getButtonX(); }
     public int getButtonY() { return pauseMenu.getButtonY(); }
@@ -73,16 +68,17 @@ public class Menus {
     }
 
     private class MainMenu {
-        private Picture muteButtonOn, muteButtonOff, gameLogo, startButton, cloud1, cloud3;
+        private Picture muteButtonOn, muteButtonOff, gameLogo, startButton;
         private MouseInteraction mouseInteraction;
         private boolean hasInstanciated = false, hasInstanciated1 = false;
+        private Clouds clouds = new Clouds();
+
         private Timer startMenu = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 if (!hasInstanciated) {
                     hasInstanciated = true;
-                    cloud1.draw();
-                    cloud3.draw();
+                    clouds.drawClouds();
                     gameLogo.draw();
                 }
             }
@@ -108,49 +104,18 @@ public class Menus {
             TinySound.setGlobalVolume(0.25);
         }
 
-        private Timer cloudTimer = new Timer(50, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                moveClouds();
-                resetCloudPosition();
-            }
-        });
-
         public void startMenu() {
             startMenu.start();
-            cloud1 = new Picture(90, 70 , Main.PREFIX + "Cloud_1.png");
-            cloud3 = new Picture(530, 150 , Main.PREFIX + "Cloud_3.png");
             startMenuButtons.start();
-            cloudTimer.start();
-            mouseInteraction.initializeMouse();
             muteButtonOn.draw();
-
+            clouds.createClouds();
+            clouds.startCloudTimer();
+            mouseInteraction.initializeMouse();
         }
 
         public void moveClouds(){
-            cloud1.translate(-1,0);
-            cloud3.translate(-1,0);
+            clouds.moveClouds();
         }
-
-        public void resetCloudPosition() {
-            if (cloud1.getX() < -200) {
-                cloud1.translate(920, 0);
-            }
-            if (cloud3.getX() < -200) {
-                cloud3.translate(920, 0);
-            }
-        }
-
-        public int getButtonX() { return startButton.getX(); }
-        public int getButtonY() { return startButton.getY(); }
-        public int getButtonWidth() { return startButton.getWidth(); }
-        public int getButtonHeight() { return startButton.getHeight(); }
-
-        public int getMuteButtonX() { return muteButtonOn.getX(); }
-        public int getMuteButtonY() { return muteButtonOn.getY(); }
-        public int getMuteButtonWidth() { return muteButtonOn.getWidth(); }
-        public int getMuteButtonHeight() { return muteButtonOn.getHeight(); }
-
         public Picture getMuteButtonOff() { return muteButtonOff; }
 
         public void removeMuteButtonOn() {
@@ -161,13 +126,20 @@ public class Menus {
         public void removeMenuButtons() {
             startMenu.stop();
             gameLogo.delete();
-            cloud1.delete();
-            cloud3.delete();
             startMenuButtons.stop();
             startButton.delete();
             muteButtonOn.delete();
             muteButtonOff.delete();
         }
+        public int getButtonX() { return startButton.getX(); }
+        public int getButtonY() { return startButton.getY(); }
+        public int getButtonWidth() { return startButton.getWidth(); }
+        public int getButtonHeight() { return startButton.getHeight(); }
+
+        public int getMuteButtonX() { return muteButtonOn.getX(); }
+        public int getMuteButtonY() { return muteButtonOn.getY(); }
+        public int getMuteButtonWidth() { return muteButtonOn.getWidth(); }
+        public int getMuteButtonHeight() { return muteButtonOn.getHeight(); }
     }
 
     private class PauseMenu {
