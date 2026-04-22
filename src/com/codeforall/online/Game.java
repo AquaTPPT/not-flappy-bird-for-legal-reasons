@@ -176,6 +176,11 @@ public class Game implements ActionListener {
             collisionDetector(tubes2);
             collisionDetector(tubes3);
             sumScore();
+            if (score.getScore() >= 10) {
+                tubes1.constantMove();
+                tubes2.constantMove();
+                tubes3.constantMove();
+            }
     }
 
     public KeyboardInteraction getKeyboardInteraction() {

@@ -24,9 +24,15 @@ public class Tubes {
         lowerTube.resetPosition(spawnTubesX,(spawnTubesY + 1200));
     }
 
+    public void constantMove() {
+        upperTube.constantMove();
+        lowerTube.constantMove();
+    }
+
     class UpperTube {
         private Rectangle hitbox;
         private Picture image;
+        private boolean goingUp;
 
         public UpperTube(int startingX, int startingY) {
 
@@ -42,6 +48,24 @@ public class Tubes {
             image.translate(-3, 0);
         }
 
+        public void constantMove() {
+                if (getUpperY() >= -300) {
+                    goingUp = false;
+                }
+                else if (getUpperY() <= -800) {
+                    goingUp = true;
+                }
+                if (!goingUp) {
+                    hitbox.translate(0, -1);
+                    image.translate(0, -1);
+                }
+                else {
+                    hitbox.translate(0, 1);
+                    image.translate(0, 1);
+                }
+
+        }
+
         public void resetPosition(int x, int y) {
             int dx = x - hitbox.getX();
             int dy = y - hitbox.getY();
@@ -55,6 +79,7 @@ public class Tubes {
     class LowerTube {
         private Rectangle hitbox;
         private Picture image;
+        private boolean goingUp;
 
         public LowerTube(int startingX, int startingY) {
 
@@ -80,6 +105,24 @@ public class Tubes {
             passed = false;
         }
 
+        public void constantMove() {
+            if (getUpperY() == -300) {
+                goingUp = false;
+            }
+            else if (getUpperY() == -800) {
+                goingUp = true;
+            }
+            if (!goingUp) {
+                hitbox.translate(0, -1);
+                image.translate(0, -1);
+            }
+            else {
+                hitbox.translate(0, 1);
+                image.translate(0, 1);
+            }
+
+        }
+
     }
 
     public void moveAll() {
@@ -98,7 +141,6 @@ public class Tubes {
         }
 
     }
-
 
     public int getUpperWidth() {
         return upperTube.hitbox.getWidth();

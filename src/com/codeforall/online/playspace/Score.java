@@ -43,4 +43,9 @@ public class Score {
         score = 0;
         textScore.setText(Integer.toString(score));
     }
+
+    public int getScore() {
+        return score;
+    }
+
 }
