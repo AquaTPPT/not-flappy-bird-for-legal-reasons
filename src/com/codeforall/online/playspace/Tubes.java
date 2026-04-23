@@ -168,7 +168,6 @@ public class Tubes {
     public void setPassed() {
         passed = true;
     }
-
     public boolean isPassed() {
         return passed;
     }

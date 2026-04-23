@@ -1,14 +1,15 @@
 package com.codeforall.online;
 
 import com.codeforall.online.Player.*;
+import com.codeforall.online.UI.Menus;
+import com.codeforall.online.UI.Score;
 import com.codeforall.online.playspace.*;
 import com.codeforall.online.sound.GameSound;
 import com.codeforall.online.statics.Random;
-import kuusisto.tinysound.*;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.*;
 
 public class Game implements ActionListener {
 
@@ -59,8 +60,8 @@ public class Game implements ActionListener {
         tubes3.spawnTubes(1600, Random.randomInt(-800, -300));
 
         score = new Score();
-        score.init();
-
+        score.initScore();
+        score.initHighScore();
         player.init(playSpace);
     }
 

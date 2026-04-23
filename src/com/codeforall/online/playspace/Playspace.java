@@ -3,6 +3,7 @@ package com.codeforall.online.playspace;
 import com.codeforall.online.Game;
 import com.codeforall.online.Main;
 import com.codeforall.online.Player.MouseInteraction;
+import com.codeforall.online.UI.Menus;
 import com.codeforall.simplegraphics.graphics.Canvas;
 import com.codeforall.simplegraphics.pictures.Picture;
 

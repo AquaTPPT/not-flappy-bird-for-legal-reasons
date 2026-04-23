@@ -1,7 +1,9 @@
-package com.codeforall.online.playspace;
+package com.codeforall.online.UI;
 
 import com.codeforall.online.Main;
 import com.codeforall.online.Player.MouseInteraction;
+import com.codeforall.online.playspace.Clouds;
+import com.codeforall.online.playspace.Playspace;
 import com.codeforall.simplegraphics.pictures.Picture;
 import kuusisto.tinysound.*;
 
