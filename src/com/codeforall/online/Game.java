@@ -10,6 +10,7 @@ import com.codeforall.online.statics.Random;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class Game implements ActionListener {
 
@@ -62,7 +63,15 @@ public class Game implements ActionListener {
         score = new Score();
         score.initScore();
         score.initHighScore();
+        try {
+            score.highScoreFileChecker();
+            score.highScoreChecker();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
         player.init(playSpace);
+
     }
 
     public void restartGame() {
@@ -80,7 +89,7 @@ public class Game implements ActionListener {
         timer.start();
     }
 
-    public void collisionDetector(Tubes tubes) {
+    public void collisionDetector(Tubes tubes) throws IOException {
 
         if (player.getY() + player.getHeight() >= playSpace.getBackgroundHeight() ||
             player.getX() + player.getWidth() >= tubes.getUpperX() &&
@@ -101,6 +110,7 @@ public class Game implements ActionListener {
             gameSound.playDeath();
             timer.stop();
             menus.startGameOverScreen();
+            score.highScoreChecker();
         }
     }
 
@@ -173,9 +183,13 @@ public class Game implements ActionListener {
             tubes2.moveAll();
             tubes3.moveAll();
             player.move();
+        try {
             collisionDetector(tubes1);
             collisionDetector(tubes2);
             collisionDetector(tubes3);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
             sumScore();
             if (score.getScore() >= 10) {
                 tubes1.constantMove();
