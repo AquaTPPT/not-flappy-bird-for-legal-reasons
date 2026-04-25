@@ -19,7 +19,7 @@ public class Tubes {
         spawnTubesY = startingY;
     }
 
-    public void resetPosition() {
+    public void restartPosition() {
         upperTube.resetPosition(spawnTubesX ,spawnTubesY);
         lowerTube.resetPosition(spawnTubesX,(spawnTubesY + 1200));
     }
