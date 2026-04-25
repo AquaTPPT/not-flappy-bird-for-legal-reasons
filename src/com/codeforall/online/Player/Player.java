@@ -1,11 +1,12 @@
 package com.codeforall.online.Player;
 
 import com.codeforall.online.Main;
+import com.codeforall.online.interfaces.*;
 import com.codeforall.online.playspace.Playspace;
 import com.codeforall.simplegraphics.graphics.Rectangle;
 import com.codeforall.simplegraphics.pictures.Picture;
 
-public class Player  {
+public class Player implements Movable, Controllable {
     private Rectangle rectangle;
     private Playspace playspace;
     private Picture birdOpen, birdClosed, birdDive;
