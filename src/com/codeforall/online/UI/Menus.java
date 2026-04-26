@@ -73,14 +73,12 @@ public class Menus {
         private Picture muteButtonOn, muteButtonOff, gameLogo, startButton;
         private MouseInteraction mouseInteraction;
         private boolean hasInstanciated = false, hasInstanciated1 = false;
-        private Clouds clouds = new Clouds();
 
         private Timer startMenu = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 if (!hasInstanciated) {
                     hasInstanciated = true;
-                    clouds.drawClouds();
                     gameLogo.draw();
                 }
             }
@@ -91,7 +89,6 @@ public class Menus {
                 if (!hasInstanciated1) {
                     hasInstanciated1 = true;
                     startButton.draw();
-                    mainMenu.moveClouds();
                 }
             }
         });
@@ -110,14 +107,9 @@ public class Menus {
             startMenu.start();
             startMenuButtons.start();
             muteButtonOn.draw();
-            clouds.createClouds();
-            clouds.startCloudTimer();
             mouseInteraction.initializeMouse();
         }
 
-        public void moveClouds(){
-            clouds.moveClouds();
-        }
         public Picture getMuteButtonOff() { return muteButtonOff; }
 
         public void removeMuteButtonOn() {
