@@ -1,6 +1,7 @@
 package com.codeforall.online.playspace;
 
 import com.codeforall.online.Main;
+import com.codeforall.online.interfaces.Movable;
 import com.codeforall.online.statics.Random;
 import com.codeforall.simplegraphics.graphics.Color;
 import com.codeforall.simplegraphics.graphics.Rectangle;
@@ -19,7 +20,7 @@ public class Tubes {
         spawnTubesY = startingY;
     }
 
-    public void resetPosition() {
+    public void restartPosition() {
         upperTube.resetPosition(spawnTubesX ,spawnTubesY);
         lowerTube.resetPosition(spawnTubesX,(spawnTubesY + 1200));
     }
@@ -49,20 +50,20 @@ public class Tubes {
         }
 
         public void constantMove() {
-                if (getUpperY() >= -300) {
-                    goingUp = false;
-                }
-                else if (getUpperY() <= -800) {
-                    goingUp = true;
-                }
-                if (!goingUp) {
-                    hitbox.translate(0, -1);
-                    image.translate(0, -1);
-                }
-                else {
-                    hitbox.translate(0, 1);
-                    image.translate(0, 1);
-                }
+            if (getUpperY() >= -300) {
+                goingUp = false;
+            }
+            else if (getUpperY() <= -800) {
+                goingUp = true;
+            }
+            if (!goingUp) {
+                hitbox.translate(0, -1);
+                image.translate(0, -1);
+            }
+            else {
+                hitbox.translate(0, 1);
+                image.translate(0, 1);
+            }
 
         }
 
