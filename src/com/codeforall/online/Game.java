@@ -16,9 +16,7 @@ public class Game implements ActionListener {
 
     // game area
     private Playspace playSpace;
-    private Tubes tubes1 = new Tubes();
-    private Tubes tubes2 = new Tubes();
-    private Tubes tubes3 = new Tubes();
+    private TubeManager tubeManager;
 
     // Menus
     private Menus menus;
@@ -46,6 +44,7 @@ public class Game implements ActionListener {
         playSpace = new Playspace(this);
         menus = playSpace.getMenus();
         keyboardInteraction = new KeyboardInteraction(player,this);
+        tubeManager = new TubeManager();
         init();
     }
 
@@ -56,9 +55,7 @@ public class Game implements ActionListener {
     }
 
     public void initGame() {
-        tubes1.spawnTubes(800, Random.randomInt(-800, -300));
-        tubes2.spawnTubes(1200, Random.randomInt(-800, -300));
-        tubes3.spawnTubes(1600, Random.randomInt(-800, -300));
+        tubeManager.spawnTubes();
 
         score = new Score();
         score.initScore();
@@ -76,9 +73,7 @@ public class Game implements ActionListener {
 
     public void restartGame() {
         player.playerMovetoSpawn();
-        tubes1.resetPosition();
-        tubes2.resetPosition();
-        tubes3.resetPosition();
+        tubeManager.restartTubes();
         startGame();
         menus.closeGameOverScreen();
         score.restartScore();
@@ -120,25 +115,25 @@ public class Game implements ActionListener {
 
     public void sumScore() {
 
-        if (player.getX() > tubes1.getUpperX() + tubes1.getUpperWidth() && !tubes1.isPassed()) {
+        if (player.getX() > tubeManager.getTubes1().getUpperX() + tubeManager.getTubes1().getUpperWidth() && !tubeManager.getTubes1().isPassed()) {
 
             score.increment();
             gameSound.playScore();
-            tubes1.setPassed();
+            tubeManager.getTubes1().setPassed();
         }
 
-        if (player.getX() > tubes2.getUpperX() + tubes2.getUpperWidth() && !tubes2.isPassed()) {
+        if (player.getX() > tubeManager.getTubes2().getUpperX() + tubeManager.getTubes2().getUpperWidth() && !tubeManager.getTubes2().isPassed()) {
 
             score.increment();
             gameSound.playScore();
-            tubes2.setPassed();
+            tubeManager.getTubes2().setPassed();
         }
 
-        if (player.getX() > tubes3.getUpperX() + tubes3.getUpperWidth() && !tubes3.isPassed()) {
+        if (player.getX() > tubeManager.getTubes3().getUpperX() + tubeManager.getTubes3().getUpperWidth() && !tubeManager.getTubes3().isPassed()) {
 
             score.increment();
             gameSound.playScore();
-            tubes3.setPassed();
+            tubeManager.getTubes3().setPassed();
         }
     }
 
@@ -179,22 +174,20 @@ public class Game implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-            tubes1.moveAll();
-            tubes2.moveAll();
-            tubes3.moveAll();
+            tubeManager.moveAllTubes();
             player.move();
         try {
-            collisionDetector(tubes1);
-            collisionDetector(tubes2);
-            collisionDetector(tubes3);
+            collisionDetector(tubeManager.getTubes1());
+            collisionDetector(tubeManager.getTubes2());
+            collisionDetector(tubeManager.getTubes3());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
             sumScore();
             if (score.getScore() >= 10) {
-                tubes1.constantMove();
-                tubes2.constantMove();
-                tubes3.constantMove();
+                tubeManager.getTubes1().constantMove();
+                tubeManager.getTubes1().constantMove();
+                tubeManager.getTubes1().constantMove();
             }
     }
 
