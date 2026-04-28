@@ -1,6 +1,8 @@
 package com.codeforall.online.Player;
 
 import com.codeforall.online.Game;
+import com.codeforall.online.GameState;
+import com.codeforall.online.UI.Menus;
 import com.codeforall.simplegraphics.mouse.Mouse;
 import com.codeforall.simplegraphics.mouse.MouseEvent;
 import com.codeforall.simplegraphics.mouse.MouseEventType;
@@ -26,48 +28,61 @@ public class MouseInteraction implements MouseHandler {
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
-        if (!game.isDead() && !game.isPlaying() && mouseEvent.getY() >= game.getMenus().getButtonY() &&
-                mouseEvent.getY() <= game.getMenus().getButtonHeight() + game.getMenus().getButtonY() &&
-                mouseEvent.getX() >= game.getMenus().getButtonX() &&
-                mouseEvent.getX() <= game.getMenus().getButtonWidth() + game.getMenus().getButtonX()) {
-            game.getMenus().removePauseMenu();
-            game.isPaused(false);
-            game.resumeGame();
+        GameState currentState = game.getState();
+        Menus menus = game.getMenus();
+
+
+        if (currentState == GameState.PAUSED) {
+            if (mouseEvent.getY() >= menus.getButtonY() &&
+                    mouseEvent.getY() <= menus.getButtonHeight() + menus.getButtonY() &&
+                    mouseEvent.getX() >= menus.getButtonX() &&
+                    mouseEvent.getX() <= menus.getButtonWidth() + menus.getButtonX()) {
+
+                menus.removePauseMenu();
+                game.resumeGame();
+            }
         }
 
-        if (game.isDead() && !game.isPlaying() && mouseEvent.getY() >= game.getMenus().getButton1Y() &&
-                mouseEvent.getY() <= game.getMenus().getButton1Height() + game.getMenus().getButton1Y() &&
-                mouseEvent.getX() >= game.getMenus().getButton1X() &&
-                mouseEvent.getX() <= game.getMenus().getButton1Width() + game.getMenus().getButton1X()) {
-            game.isDead(false);
-            game.isPlaying(true);
-            game.getKeyboardInteraction().addJumpMechanic();
-            game.restartGame();
-        }
-        if (!game.isStarted() && mouseEvent.getY() >= game.getMenus().getButton1Y() &&
-                mouseEvent.getY() <= game.getMenus().getButton1Height() + game.getMenus().getButton1Y() &&
-                mouseEvent.getX() >= game.getMenus().getButton1X() &&
-                mouseEvent.getX() <= game.getMenus().getButton1Width() + game.getMenus().getButton1X()) {
-            game.isStarted(true);
-            game.getMenus().removeStartMenu();
-            game.initGame();
-            game.startGame();
+        // 2. GAME OVER LOGIC
+        if (currentState == GameState.GAME_OVER) {
+            if (mouseEvent.getY() >= menus.getButton1Y() &&
+                    mouseEvent.getY() <= menus.getButton1Height() + menus.getButton1Y() &&
+                    mouseEvent.getX() >= menus.getButton1X() &&
+                    mouseEvent.getX() <= menus.getButton1Width() + menus.getButton1X()) {
 
+                game.getKeyboardInteraction().addJumpMechanic();
+                game.restartGame();
+            }
         }
-        if (mouseEvent.getY() >= game.getMenus().getMuteButtonY() &&
-                mouseEvent.getY() <= game.getMenus().getMuteButtonHeight() + game.getMenus().getMuteButtonY() &&
-                mouseEvent.getX() >= game.getMenus().getMuteButtonX() &&
-                mouseEvent.getX() <= game.getMenus().getMuteButtonWidth() + game.getMenus().getMuteButtonX()) {
+
+        // 3. MAIN MENU LOGIC
+        if (currentState == GameState.MENU) {
+            if (mouseEvent.getY() >= menus.getButton1Y() &&
+                    mouseEvent.getY() <= menus.getButton1Height() + menus.getButton1Y() &&
+                    mouseEvent.getX() >= menus.getButton1X() &&
+                    mouseEvent.getX() <= menus.getButton1Width() + menus.getButton1X()) {
+
+                menus.removeStartMenu();
+                game.initGame();
+                game.startGame();
+            }
+        }
+
+        // 4. MUTE BUTTON LOGIC (Global)
+        if (mouseEvent.getY() >= menus.getMuteButtonY() &&
+                mouseEvent.getY() <= menus.getMuteButtonHeight() + menus.getMuteButtonY() &&
+                mouseEvent.getX() >= menus.getMuteButtonX() &&
+                mouseEvent.getX() <= menus.getMuteButtonWidth() + menus.getMuteButtonX()) {
+
             if (!game.isMuted()) {
                 game.isMuted(true);
-                game.getMenus().getMuteButtonOff().draw();
-                game.getMenus().removeMuteButtonOn();
+                menus.getMuteButtonOff().draw();
+                menus.removeMuteButtonOn();
                 TinySound.setGlobalVolume(0);
-            }
-            else {
+            } else {
                 game.isMuted(false);
-                game.getMenus().getMuteButtonOff().delete();
-                game.getMenus().addMuteButtonOn();
+                menus.getMuteButtonOff().delete();
+                menus.addMuteButtonOn();
                 TinySound.setGlobalVolume(0.25);
             }
         }

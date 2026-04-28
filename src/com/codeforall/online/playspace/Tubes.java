@@ -21,14 +21,14 @@ public class Tubes {
 
         upperHitbox = new Rectangle(startingX,startingY, 100,1000);
         upperHitbox.setColor(Color.ORANGE);
-        upperHitbox.draw();
+
 
         lowerTube = new Picture(startingX - 20, startingY + 1200, Main.PREFIX + "tube_lower.png");
         lowerTube.draw();
 
         lowerHitbox = new Rectangle(startingX, startingY + 1200, 100,1000);
         lowerHitbox.setColor(Color.ORANGE);
-        lowerHitbox.draw();
+
     }
 
     public void restartPosition() {

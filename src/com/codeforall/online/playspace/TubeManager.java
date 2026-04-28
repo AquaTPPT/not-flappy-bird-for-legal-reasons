@@ -1,47 +1,42 @@
 package com.codeforall.online.playspace;
 
 import com.codeforall.online.statics.Random;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TubeManager {
-    private Tubes tubes1 = new Tubes();
-    private Tubes tubes2 = new Tubes();
-    private Tubes tubes3 = new Tubes();
+    private List<Tubes> tubesList;
 
     public TubeManager() {
-        this.tubes1 = tubes1;
-        this.tubes2 = tubes2;
-        this.tubes3 = tubes3;
+        this.tubesList = new ArrayList<>();
     }
 
 
     public void spawnTubes() {
-        tubes1.spawnTubes(800, Random.randomInt(-800, -300));
-        tubes2.spawnTubes(1200, Random.randomInt(-800, -300));
-        tubes3.spawnTubes(1600, Random.randomInt(-800, -300));
+        tubesList.clear();
+
+        for (int i = 0; i < 3; i++) {
+            Tubes t = new Tubes();
+
+            t.spawnTubes(800 + (i * 400), Random.randomInt(-800, -300));
+            tubesList.add(t);
+        }
     }
 
     public void restartTubes () {
-        tubes1.restartPosition();
-        tubes2.restartPosition();
-        tubes3.restartPosition();
-    }
-
-    public Tubes getTubes1() {
-        return tubes1;
-    }
-
-    public Tubes getTubes2() {
-        return tubes2;
-    }
-
-    public Tubes getTubes3() {
-        return tubes3;
+        for (Tubes t: tubesList) {
+            t.restartPosition();
+        }
     }
 
     public void moveAllTubes() {
-        tubes1.moveAll();
-        tubes2.moveAll();
-        tubes3.moveAll();
+        for (Tubes t : tubesList) {
+            t.moveAll();
+        }
+    }
+
+    public List<Tubes> getTubes() {
+        return tubesList;
     }
 
 }

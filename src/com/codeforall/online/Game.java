@@ -30,7 +30,7 @@ public class Game implements ActionListener {
 
     // Player
     private Player player = new Player();
-    private boolean isPlaying = true, isPaused = false, isDead = false, isStarted = false;
+    //private boolean isPlaying = true, isPaused = false, isDead = false, isStarted = false;
 
     //Score
     private Score score;
@@ -38,6 +38,9 @@ public class Game implements ActionListener {
     // Sound Effects
     private boolean isMuted = false;
     private GameSound gameSound = new GameSound();
+
+    // GameState
+    private GameState state = GameState.MENU;
 
     public Game() {
         mouseInteraction = new MouseInteraction(this);
@@ -56,7 +59,6 @@ public class Game implements ActionListener {
 
     public void initGame() {
         tubeManager.spawnTubes();
-
         score = new Score();
         score.initScore();
         score.initHighScore();
@@ -80,6 +82,7 @@ public class Game implements ActionListener {
     }
 
     public void startGame() {
+        state = GameState.PLAYING;
         gameSound.playBgm();
         timer.start();
     }
@@ -98,9 +101,8 @@ public class Game implements ActionListener {
                         tubes.getLowerY() + tubes.getLowerHeight() >= player.getY() ) {
             keyboardInteraction.removeJumpMechanic();
             player.setDeadPicture();
-            isPlaying = false;
-            isDead = true;
 
+            state = GameState.GAME_OVER;
             gameSound.stopBgm();
             gameSound.playDeath();
             timer.stop();
@@ -115,36 +117,23 @@ public class Game implements ActionListener {
 
     public void sumScore() {
 
-        if (player.getX() > tubeManager.getTubes1().getUpperX() + tubeManager.getTubes1().getUpperWidth() && !tubeManager.getTubes1().isPassed()) {
-
-            score.increment();
-            gameSound.playScore();
-            tubeManager.getTubes1().setPassed();
-        }
-
-        if (player.getX() > tubeManager.getTubes2().getUpperX() + tubeManager.getTubes2().getUpperWidth() && !tubeManager.getTubes2().isPassed()) {
-
-            score.increment();
-            gameSound.playScore();
-            tubeManager.getTubes2().setPassed();
-        }
-
-        if (player.getX() > tubeManager.getTubes3().getUpperX() + tubeManager.getTubes3().getUpperWidth() && !tubeManager.getTubes3().isPassed()) {
-
-            score.increment();
-            gameSound.playScore();
-            tubeManager.getTubes3().setPassed();
+        for (Tubes t : tubeManager.getTubes()) {
+            if (player.getX() > t.getUpperX() + t.getUpperWidth() && !t.isPassed()) {
+                score.increment();
+                gameSound.playScore();
+                t.setPassed();
+            }
         }
     }
 
     public void resumeGame() {
-        isPlaying = true;
+        state = GameState.PLAYING;
         timer.start();
         gameSound.resumeBgm();
     }
 
     public void stopGame() {
-        isPlaying = false;
+        state = GameState.PAUSED;
         timer.stop();
         gameSound.pauseBgm();
         gameSound.stopDeath();
@@ -160,38 +149,42 @@ public class Game implements ActionListener {
         return isMuted = set;
     }
 
-    public boolean isStarted(boolean val) { return isStarted = val; }
-    public boolean isStarted() { return isStarted; }
-
-    public boolean isDead(boolean set) { return isDead = set; }
-    public boolean isDead() { return isDead; }
-
-    public boolean isPlaying(boolean set) { return isPlaying = set; }
-    public boolean isPlaying() { return isPlaying; }
-
-    public boolean isPaused(boolean val) { return isPaused = val; }
-    public boolean isPaused() { return isPaused; }
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-            tubeManager.moveAllTubes();
-            player.move();
+        if (state != GameState.PLAYING) {
+            return;
+        }
+
+        tubeManager.moveAllTubes();
+        player.move();
+
         try {
-            collisionDetector(tubeManager.getTubes1());
-            collisionDetector(tubeManager.getTubes2());
-            collisionDetector(tubeManager.getTubes3());
+            for (Tubes t : tubeManager.getTubes()) {
+                collisionDetector(t);
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-            sumScore();
-            if (score.getScore() >= 10) {
-                tubeManager.getTubes1().constantMove();
-                tubeManager.getTubes1().constantMove();
-                tubeManager.getTubes1().constantMove();
+        sumScore();
+
+        if (score.getScore() >= 10) {
+            for (Tubes t : tubeManager.getTubes()) {
+                t.constantMove();
             }
+        }
     }
+
 
     public KeyboardInteraction getKeyboardInteraction() {
         return keyboardInteraction;
+    }
+
+    public GameState getState () {
+        return state;
+    }
+
+    public void setState (GameState state) {
+        this.state = state;
     }
 }

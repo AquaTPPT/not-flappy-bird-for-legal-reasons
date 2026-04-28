@@ -1,6 +1,7 @@
 package com.codeforall.online.Player;
 
 import com.codeforall.online.Game;
+import com.codeforall.online.GameState;
 import com.codeforall.simplegraphics.keyboard.Keyboard;
 import com.codeforall.simplegraphics.keyboard.KeyboardEvent;
 import com.codeforall.simplegraphics.keyboard.KeyboardEventType;
@@ -43,13 +44,13 @@ public class KeyboardInteraction implements KeyboardHandler {
         }
 
 
-        if (keyboardEvent.getKey() == KeyboardEvent.KEY_SPACE && !game.isPaused()) {
+        if (keyboardEvent.getKey() == KeyboardEvent.KEY_SPACE && game.getState() == GameState.PLAYING) {
             player.jump();
         }
 
-        if (keyboardEvent.getKey() == KeyboardEvent.KEY_ESC && !game.isPaused() && !game.isDead()) {
+        if (keyboardEvent.getKey() == KeyboardEvent.KEY_ESC && game.getState() == GameState.PLAYING) {
             game.stopGame();
-            game.isPaused(true);
+            game.setState(GameState.PAUSED);
             player.startPauseMenu();
         }
     }
